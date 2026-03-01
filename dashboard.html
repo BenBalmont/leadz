@@ -1533,10 +1533,12 @@ function initUserSession() {
   // Handle category filter from URL (e.g., from landing page category cards)
   const catParam = params.get('cat');
   if (catParam) {
-    currentFilter = 'cat-' + catParam;
+    // Decode the category (handles "Real+Estate" → "Real Estate")
+    const decodedCat = decodeURIComponent(catParam.replace(/\+/g, ' '));
+    currentFilter = 'cat-' + decodedCat;
     // Update the active nav item
     document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-    const catNav = document.querySelector(`.nav-item[data-filter="cat-${catParam}"]`);
+    const catNav = document.querySelector(`.nav-item[data-filter="cat-${decodedCat}"]`);
     if (catNav) catNav.classList.add('active');
     renderLeads(); // Re-render with new filter
   }
