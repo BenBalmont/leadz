@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — Leadz</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #08090E; color: #F1F5F9;
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 24px;
+    }
+    .bg { position: fixed; inset: 0; background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124,58,237,0.2) 0%, transparent 60%); }
+    .content { position: relative; z-index: 1; }
+    .num { font-family: 'Space Grotesk', sans-serif; font-size: 120px; font-weight: 800; 
+      background: linear-gradient(135deg, #7C3AED, #06B6D4); -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+    h2 { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; margin: 16px 0 12px; }
+    p { color: #94A3B8; margin-bottom: 32px; }
+    a.btn { display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #7C3AED, #5B21B6);
+      color: #fff; text-decoration: none; border-radius: 10px; font-weight: 700; font-size: 15px; 
+      transition: transform 0.2s; }
+    a.btn:hover { transform: translateY(-2px); }
+    .links { margin-top: 20px; display: flex; gap: 20px; justify-content: center; }
+    .links a { color: #64748B; text-decoration: none; font-size: 14px; }
+    .links a:hover { color: #94A3B8; }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="content">
+    <div class="num">404</div>
+    <h2>Looks like this lead doesn't exist.</h2>
+    <p>The page you're looking for has gone cold. Try heading back home.</p>
+    <a href="/leadz/" class="btn">← Back to Leadz</a>
+    <div class="links">
+      <a href="/leadz/dashboard.html">Dashboard</a>
+      <a href="/leadz/signup.html">Sign Up</a>
+      <a href="/leadz/index.html#pricing">Pricing</a>
+    </div>
+  </div>
+</body>
+</html>
