@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leadz — Toronto Restaurant Leads Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #08090E;
+      --bg2: #0D0F1A;
+      --sidebar: #0B0D16;
+      --card: #1A1D27;
+      --card-hover: #1F2235;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.10);
+      --border3: rgba(255,255,255,0.14);
+      --primary: #7C3AED;
+      --primary-light: #9F6FF5;
+      --primary-glow: rgba(124,58,237,0.3);
+      --green: #10B981;
+      --amber: #F59E0B;
+      --red: #EF4444;
+      --cyan: #06B6D4;
+      --text: #F1F5F9;
+      --text2: #94A3B8;
+      --text3: #64748B;
+      --text4: #475569;
+      --hot: #10B981;
+      --warm: #F59E0B;
+      --cold: #64748B;
+      --sidebar-w: 260px;
+    }
+
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.14); }
+
+    /* ══════════════════════════════
+       SIDEBAR
+    ══════════════════════════════ */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      background: var(--sidebar);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 10;
+    }
+
+    .sidebar-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 22px 20px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo-bolt {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: linear-gradient(135deg, #7C3AED, #06B6D4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .logo-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+    }
+    .logo-plan {
+      margin-left: auto;
+      background: rgba(124,58,237,0.2); border: 1px solid rgba(124,58,237,0.4);
+      color: var(--primary-light); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.5px; padding: 2px 7px; border-radius: 4px;
+      white-space: nowrap;
+    }
+
+    .sidebar-stats {
+      padding: 14px 16px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-box {
+      background: var(--bg2); border-radius: 8px;
+      padding: 10px 10px 8px;
+      border: 1px solid var(--border);
+    }
+    .stat-box .val {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px; font-weight: 700; line-height: 1;
+      margin-bottom: 2px;
+    }
+    .stat-box .lbl { font-size: 10px; color: var(--text3); font-weight: 500; }
+    .stat-box .val.green { color: var(--green); }
+    .stat-box .val.purple { color: var(--primary-light); }
+    .stat-box .val.amber { color: var(--amber); }
+
+    .sidebar-search {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-input {
+      width: 100%; background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 8px; padding: 8px 12px 8px 32px;
+      color: var(--text); font-size: 13px; font-family: 'Inter', sans-serif;
+      outline: none; transition: border-color 0.2s;
+      position: relative;
+    }
+    .search-wrap { position: relative; }
+    .search-wrap::before {
+      content: '🔍'; position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      font-size: 11px; pointer-events: none; z-index: 1;
+    }
+    .search-input:focus { border-color: var(--primary); }
+    .search-input::placeholder { color: var(--text3); }
+
+    .sidebar-section {
+      padding: 4px 0;
+    }
+    .sidebar-section-label {
+      padding: 10px 16px 4px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--text4);
+    }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 16px; cursor: pointer;
+      font-size: 13px; font-weight: 500; color: var(--text2);
+      border-radius: 0; transition: all 0.15s;
+      border-left: 2px solid transparent;
+      user-select: none;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.03); color: var(--text); }
+    .nav-item.active {
+      background: rgba(124,58,237,0.1); color: var(--primary-light);
+      border-left-color: var(--primary);
+    }
+    .nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
+    .nav-badge {
+      margin-left: auto; background: var(--primary); color: #fff;
+      font-size: 10px; font-weight: 700; padding: 1px 6px;
+      border-radius: 10px; min-width: 20px; text-align: center;
+    }
+    .nav-badge.green { background: var(--green); }
+    .nav-badge.amber { background: var(--amber); color: #000; }
+
+    .sidebar-divider { height: 1px; background: var(--border); margin: 6px 0; }
+
+    .sidebar-footer {
+      margin-top: auto; padding: 12px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 11px; color: var(--text4);
+    }
+    .sidebar-footer .live-dot {
+      display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green); margin-right: 5px;
+      animation: pulse 2s ease-in-out infinite;
+      vertical-align: middle;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; } 50% { opacity: 0.4; }
+    }
+
+    /* ══════════════════════════════
+       MAIN PANEL
+    ══════════════════════════════ */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1; display: flex; flex-direction: column;
+      height: 100vh; overflow: hidden;
+    }
+
+    /* TOP NAV */
+    .topnav {
+      display: flex; align-items: center; gap: 16px;
+      padding: 0 28px; height: 60px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .topnav-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 17px; font-weight: 700;
+    }
+    .topnav-sub { font-size: 13px; color: var(--text3); margin-left: 2px; }
+    .live-badge {
+      display: flex; align-items: center; gap: 5px;
+      background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25);
+      color: var(--green); font-size: 11px; font-weight: 600;
+      padding: 3px 10px; border-radius: 100px;
+    }
+    .live-badge::before {
+      content: ''; width: 5px; height: 5px; border-radius: 50%;
+      background: var(--green); animation: pulse 2s ease-in-out infinite;
+    }
+    .topnav-actions { margin-left: auto; display: flex; gap: 10px; align-items: center; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 14px; border-radius: 7px; font-size: 13px; font-weight: 500;
+      cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+      transition: all 0.18s; white-space: nowrap;
+    }
+    .btn-outline {
+      background: transparent; color: var(--text2);
+      border: 1px solid var(--border2);
+    }
+    .btn-outline:hover { color: var(--text); border-color: var(--border3); background: rgba(255,255,255,0.04); }
+    .btn-purple {
+      background: var(--primary); color: #fff;
+      box-shadow: 0 2px 12px var(--primary-glow);
+    }
+    .btn-purple:hover { background: var(--primary-light); box-shadow: 0 4px 20px var(--primary-glow); }
+
+    /* FILTER BAR */
+    .filter-bar {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 28px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .filter-pill {
+      padding: 5px 14px; border-radius: 100px; font-size: 12px; font-weight: 600;
+      cursor: pointer; border: 1px solid var(--border2);
+      background: transparent; color: var(--text3);
+      transition: all 0.15s; white-space: nowrap; font-family: 'Inter', sans-serif;
+    }
+    .filter-pill:hover { color: var(--text2); border-color: var(--border3); }
+    .filter-pill.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+      box-shadow: 0 2px 8px var(--primary-glow);
+    }
+    .filter-sep { width: 1px; height: 20px; background: var(--border); flex-shrink: 0; }
+    .sort-select {
+      margin-left: auto; background: var(--bg2); border: 1px solid var(--border2);
+      color: var(--text2); font-size: 12px; padding: 5px 10px;
+      border-radius: 6px; outline: none; font-family: 'Inter', sans-serif; cursor: pointer;
+    }
+
+    /* REVENUE STRIP */
+    .revenue-strip {
+      display: flex; align-items: center; gap: 20px;
+      padding: 8px 28px;
+      background: rgba(16,185,129,0.05);
+      border-bottom: 1px solid rgba(16,185,129,0.12);
+      font-size: 12px; color: var(--text3);
+      flex-shrink: 0;
+    }
+    .revenue-strip strong { color: var(--green); font-weight: 700; }
+
+    /* LEADS GRID */
+    .leads-area {
+      flex: 1; overflow-y: auto;
+      padding: 24px 28px;
+    }
+    .leads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    /* LEAD CARD */
+    .lead-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px;
+      cursor: pointer; transition: all 0.22s;
+      position: relative; overflow: hidden;
+      animation: cardIn 0.4s ease both;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .lead-card:hover {
+      background: var(--card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(124,58,237,0.2);
+      border-color: rgba(124,58,237,0.25);
+    }
+
+    .card-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+    .card-avatar {
+      width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 800;
+      color: #fff;
+    }
+    .card-info { flex: 1; min-width: 0; }
+    .card-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 15px; font-weight: 700; line-height: 1.2;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+    .card-meta { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .pill {
+      font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 100px;
+    }
+    .pill-cat { background: rgba(124,58,237,0.15); color: var(--primary-light); }
+    .pill-neighborhood { background: rgba(255,255,255,0.05); color: var(--text3); }
+    .pill-cuisine { background: rgba(6,182,212,0.12); color: var(--cyan); }
+
+    .score-badge {
+      margin-left: auto; flex-shrink: 0;
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 800;
+    }
+    .score-hot { background: rgba(16,185,129,0.15); color: var(--green); border: 1.5px solid rgba(16,185,129,0.3); }
+    .score-warm { background: rgba(245,158,11,0.15); color: var(--amber); border: 1.5px solid rgba(245,158,11,0.3); }
+    .score-cold { background: rgba(100,116,139,0.15); color: var(--cold); border: 1.5px solid rgba(100,116,139,0.2); }
+
+    .card-rating {
+      display: flex; align-items: center; gap: 5px;
+      font-size: 12px; color: var(--text2); margin-bottom: 10px;
+    }
+    .card-rating .stars { color: var(--amber); }
+    .card-rating .count { color: var(--text4); font-size: 11px; }
+
+    .card-contact {
+      display: flex; gap: 8px; align-items: center; margin-bottom: 12px;
+      padding: 8px 10px; background: rgba(255,255,255,0.03); border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    .contact-icon { font-size: 13px; }
+    .contact-info { flex: 1; min-width: 0; }
+    .contact-name { font-size: 12px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .contact-title { font-size: 10px; color: var(--text3); }
+    .email-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .email-dot.found { background: var(--green); box-shadow: 0 0 6px rgba(16,185,129,0.5); }
+    .email-dot.notfound { background: var(--text4); }
+
+    .card-actions {
+      display: flex; gap: 8px;
+    }
+    .card-btn {
+      flex: 1; padding: 7px 4px; border-radius: 7px; font-size: 11px; font-weight: 600;
+      cursor: pointer; border: 1px solid var(--border2);
+      background: transparent; color: var(--text3);
+      transition: all 0.15s; font-family: 'Inter', sans-serif;
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+    }
+    .card-btn:hover { color: var(--text); background: rgba(255,255,255,0.06); border-color: var(--border3); }
+    .card-btn.call:hover { color: var(--green); border-color: rgba(16,185,129,0.4); }
+    .card-btn.email:hover { color: var(--primary-light); border-color: rgba(124,58,237,0.4); }
+    .card-btn.web:hover { color: var(--cyan); border-color: rgba(6,182,212,0.4); }
+
+    .card-status {
+      position: absolute; top: 14px; right: 14px;
+    }
+    .status-pill {
+      font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 100px;
+      letter-spacing: 0.3px; text-transform: uppercase;
+    }
+    .s-new { background: rgba(124,58,237,0.15); color: var(--primary-light); }
+    .s-contacted { background: rgba(6,182,212,0.15); color: var(--cyan); }
+    .s-interested { background: rgba(245,158,11,0.15); color: var(--amber); }
+    .s-proposal { background: rgba(16,185,129,0.15); color: var(--green); }
+    .s-won { background: rgba(16,185,129,0.25); color: var(--green); border: 1px solid rgba(16,185,129,0.4); }
+    .s-lost { background: rgba(239,68,68,0.12); color: var(--red); }
+
+    /* ══════════════════════════════
+       MODAL
+    ══════════════════════════════ */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(12px);
+      align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: #13151F;
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      width: 100%; max-width: 980px;
+      max-height: 90vh;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: 0 40px 120px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+      animation: modalIn 0.25s ease;
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      display: flex; align-items: center; gap: 14px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .modal-avatar {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: #fff;
+    }
+    .modal-header-info { flex: 1; }
+    .modal-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px; font-weight: 800; margin-bottom: 4px;
+    }
+    .modal-pills { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .modal-close {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border2);
+      color: var(--text2); font-size: 18px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.15s; flex-shrink: 0;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.1); color: var(--text); }
+
+    .modal-body {
+      flex: 1; overflow-y: auto;
+      display: grid; grid-template-columns: 2fr 3fr;
+      gap: 0;
+    }
+
+    /* LEFT COL */
+    .modal-left {
+      padding: 22px; border-right: 1px solid var(--border);
+      overflow-y: auto;
+    }
+    .modal-section { margin-bottom: 22px; }
+    .modal-section-title {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--text4); margin-bottom: 10px;
+    }
+
+    .quick-stats {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;
+    }
+    .qs-box {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px;
+    }
+    .qs-label { font-size: 10px; color: var(--text4); margin-bottom: 3px; }
+    .qs-value { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; }
+
+    .score-ring {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px; background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 10px; margin-bottom: 12px;
+    }
+    .ring-svg { width: 56px; height: 56px; transform: rotate(-90deg); flex-shrink: 0; }
+    .ring-svg circle { transition: stroke-dashoffset 0.8s ease; }
+    .ring-label { font-size: 11px; color: var(--text3); }
+    .ring-num { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 800; }
+
+    .status-select {
+      width: 100%; padding: 9px 12px; border-radius: 8px;
+      background: var(--bg2); border: 1px solid var(--border2);
+      color: var(--text); font-size: 13px; font-family: 'Inter', sans-serif;
+      outline: none; cursor: pointer; transition: border-color 0.2s;
+      margin-bottom: 8px;
+    }
+    .status-select:focus { border-color: var(--primary); }
+
+    .add-queue-btn {
+      width: 100%; padding: 9px; border-radius: 8px;
+      background: rgba(124,58,237,0.12); border: 1px solid rgba(124,58,237,0.3);
+      color: var(--primary-light); font-size: 13px; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s;
+      margin-bottom: 4px;
+    }
+    .add-queue-btn:hover { background: rgba(124,58,237,0.2); }
+
+    .desc-text { font-size: 13px; color: var(--text2); line-height: 1.65; }
+
+    .info-row {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; color: var(--text2); margin-bottom: 8px;
+    }
+    .info-row .lbl { color: var(--text4); font-size: 11px; width: 48px; flex-shrink: 0; padding-top: 1px; }
+    .info-row a { color: var(--text2); text-decoration: none; transition: color 0.15s; }
+    .info-row a:hover { color: var(--primary-light); }
+
+    .menu-list { list-style: none; }
+    .menu-list li {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--text2); padding: 5px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .menu-list li:last-child { border-bottom: none; }
+    .menu-list li::before { content: '◦'; color: var(--primary-light); }
+
+    /* RIGHT COL */
+    .modal-right { padding: 22px; overflow-y: auto; }
+
+    .contact-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 18px; margin-bottom: 16px;
+    }
+    .contact-card.highlighted {
+      border-color: rgba(124,58,237,0.3);
+      background: linear-gradient(135deg, rgba(124,58,237,0.06) 0%, var(--bg2) 60%);
+    }
+
+    .dm-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px; font-weight: 800; margin-bottom: 2px;
+    }
+    .dm-title { font-size: 12px; color: var(--text3); margin-bottom: 16px; }
+
+    .contact-btn-row { display: flex; flex-direction: column; gap: 8px; margin-bottom: 6px; }
+    .contact-big-btn {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 16px; border-radius: 10px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      border: none; font-family: 'Inter', sans-serif;
+      transition: all 0.2s; text-decoration: none; width: 100%;
+    }
+    .contact-big-btn .btn-icon { font-size: 18px; width: 24px; text-align: center; }
+    .contact-big-btn .btn-content { flex: 1; text-align: left; }
+    .contact-big-btn .btn-label { font-size: 10px; font-weight: 500; opacity: 0.7; display: block; margin-bottom: 1px; }
+    .contact-big-btn .btn-val { font-size: 14px; font-weight: 600; }
+    .btn-call { background: rgba(16,185,129,0.12); color: var(--green); border: 1px solid rgba(16,185,129,0.25); }
+    .btn-call:hover { background: rgba(16,185,129,0.2); box-shadow: 0 0 20px rgba(16,185,129,0.15); }
+    .btn-email { background: rgba(124,58,237,0.12); color: var(--primary-light); border: 1px solid rgba(124,58,237,0.25); }
+    .btn-email:hover { background: rgba(124,58,237,0.2); box-shadow: 0 0 20px rgba(124,58,237,0.15); }
+    .btn-linkedin { background: rgba(6,182,212,0.1); color: var(--cyan); border: 1px solid rgba(6,182,212,0.2); }
+    .btn-linkedin:hover { background: rgba(6,182,212,0.18); }
+
+    .pitch-card {
+      background: linear-gradient(135deg, rgba(124,58,237,0.08) 0%, rgba(6,182,212,0.04) 100%);
+      border: 1px solid rgba(124,58,237,0.25); border-radius: 12px;
+      padding: 18px; margin-bottom: 16px;
+    }
+    .pitch-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.2px; color: var(--primary-light); margin-bottom: 10px;
+    }
+    .pitch-notes { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 14px; }
+
+    .copy-email-btn {
+      width: 100%; padding: 10px; border-radius: 8px;
+      background: var(--primary); color: #fff; font-size: 13px; font-weight: 600;
+      cursor: pointer; border: none; font-family: 'Inter', sans-serif;
+      transition: all 0.2s; margin-bottom: 14px;
+    }
+    .copy-email-btn:hover { background: var(--primary-light); box-shadow: 0 4px 16px var(--primary-glow); }
+    .copy-email-btn.copied { background: var(--green); }
+
+    .email-preview {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; padding: 14px;
+      font-size: 12px; color: var(--text2); line-height: 1.7;
+      white-space: pre-wrap;
+    }
+    .email-preview .subj { color: var(--text); font-weight: 600; margin-bottom: 8px; display: block; }
+
+    /* ACTIVITY LOG */
+    .activity-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 16px; margin-bottom: 16px;
+    }
+    .activity-actions { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .act-btn {
+      padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600;
+      cursor: pointer; border: 1px solid var(--border2);
+      background: transparent; color: var(--text3);
+      font-family: 'Inter', sans-serif; transition: all 0.15s;
+    }
+    .act-btn:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+
+    .note-input {
+      width: 100%; padding: 8px 12px; border-radius: 7px;
+      background: var(--bg); border: 1px solid var(--border2);
+      color: var(--text); font-size: 12px; font-family: 'Inter', sans-serif;
+      outline: none; resize: none; transition: border-color 0.2s;
+      margin-bottom: 8px;
+    }
+    .note-input:focus { border-color: var(--primary); }
+    .note-submit {
+      padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 600;
+      background: rgba(124,58,237,0.15); color: var(--primary-light);
+      border: 1px solid rgba(124,58,237,0.3); cursor: pointer;
+      font-family: 'Inter', sans-serif; transition: all 0.15s;
+    }
+    .note-submit:hover { background: rgba(124,58,237,0.25); }
+
+    .activity-timeline { margin-top: 10px; }
+    .activity-item {
+      display: flex; gap: 10px; padding: 7px 0;
+      border-bottom: 1px solid var(--border); font-size: 12px;
+    }
+    .activity-item:last-child { border-bottom: none; }
+    .activity-item .time { color: var(--text4); width: 68px; flex-shrink: 0; font-size: 11px; }
+    .activity-item .action { color: var(--text2); }
+    .activity-empty { color: var(--text4); font-size: 12px; text-align: center; padding: 16px 0; }
+
+    /* KEYBOARD HINT */
+    .modal-kbd {
+      display: flex; gap: 14px; align-items: center; justify-content: center;
+      padding: 10px 24px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .kbd-hint { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text4); }
+    .kbd { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 1px 6px; font-size: 10px; font-family: monospace; }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center; padding: 80px 24px; color: var(--text3);
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; display: block; }
+    .empty-state h3 { font-size: 18px; margin-bottom: 8px; color: var(--text2); }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+      background: var(--card2); border: 1px solid var(--border2);
+      border-radius: 10px; padding: 12px 18px;
+      font-size: 13px; font-weight: 500; color: var(--text);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      animation: toastIn 0.3s ease;
+      display: none;
+    }
+    .toast.show { display: block; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 900px) {
+      .modal-body { grid-template-columns: 1fr; }
+      .modal-left { border-right: none; border-bottom: 1px solid var(--border); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ SIDEBAR ══ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-bolt">⚡</div>
+    <span class="logo-text">LEADZ</span>
+    <span class="logo-plan">PRO</span>
+  </div>
+
+  <div class="sidebar-stats">
+    <div class="stat-box">
+      <div class="val purple" id="stat-total">0</div>
+      <div class="lbl">Total Leads</div>
+    </div>
+    <div class="stat-box">
+      <div class="val green" id="stat-email">0</div>
+      <div class="lbl">With Email</div>
+    </div>
+    <div class="stat-box">
+      <div class="val" id="stat-owner">0</div>
+      <div class="lbl">With Owner</div>
+    </div>
+    <div class="stat-box">
+      <div class="val amber" id="stat-contacted">0</div>
+      <div class="lbl">Contacted</div>
+    </div>
+  </div>
+
+  <div class="sidebar-search">
+    <div class="search-wrap">
+      <input class="search-input" id="searchInput" type="text" placeholder="Search leads..." />
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Views</div>
+    <div class="nav-item active" data-filter="all"><span class="icon">🏠</span> All Leads <span class="nav-badge" id="badge-all">0</span></div>
+    <div class="nav-item" data-filter="hot"><span class="icon">🔥</span> Hot Leads (80+) <span class="nav-badge green" id="badge-hot">0</span></div>
+    <div class="nav-item" data-filter="queue"><span class="icon">📋</span> Pitch Queue <span class="nav-badge amber" id="badge-queue">0</span></div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Category</div>
+    <div class="nav-item" data-filter="cat-Restaurant"><span class="icon">🍽️</span> Restaurants</div>
+    <div class="nav-item" data-filter="cat-Cafe"><span class="icon">☕</span> Cafes</div>
+    <div class="nav-item" data-filter="cat-Bakery"><span class="icon">🥐</span> Bakeries</div>
+    <div class="nav-item" data-filter="cat-Dessert"><span class="icon">🍦</span> Dessert</div>
+    <div class="nav-item" data-filter="cat-Juice Bar"><span class="icon">🥤</span> Juice / Smoothie</div>
+  </div>
+
+  <div class="sidebar-divider"></div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Neighborhood</div>
+    <div class="nav-item" data-filter="nb-King West"><span class="icon">📍</span> King West</div>
+    <div class="nav-item" data-filter="nb-Kensington Market"><span class="icon">📍</span> Kensington</div>
+    <div class="nav-item" data-filter="nb-Leslieville"><span class="icon">📍</span> Leslieville</div>
+    <div class="nav-item" data-filter="nb-Dundas West"><span class="icon">📍</span> Dundas West</div>
+    <div class="nav-item" data-filter="nb-Queen West"><span class="icon">📍</span> Queen West</div>
+    <div class="nav-item" data-filter="nb-Downtown Core"><span class="icon">📍</span> Downtown</div>
+  </div>
+
+  <div class="sidebar-footer">
+    <span class="live-dot"></span>
+    Toronto · Restaurants · 1,247 leads available<br />
+    <span style="margin-top:4px;display:block;">Last updated: today at 11:07 PM</span>
+  </div>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<div class="main">
+
+  <!-- TOP NAV -->
+  <div class="topnav">
+    <div>
+      <span class="topnav-title">Toronto Restaurants</span>
+      <span class="topnav-sub">— 1,247 leads available</span>
+    </div>
+    <div class="live-badge">LIVE</div>
+    <div class="topnav-actions">
+      <button class="btn btn-outline" onclick="exportCSV()">⬇ Export CSV</button>
+      <button class="btn btn-outline" onclick="copyAllEmails()">📋 Copy Emails</button>
+      <button class="btn btn-purple" onclick="window.location='index.html'">↗ Marketing Page</button>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <button class="filter-pill active" data-status="all">All</button>
+    <button class="filter-pill" data-status="new">New</button>
+    <button class="filter-pill" data-status="contacted">Contacted</button>
+    <button class="filter-pill" data-status="interested">Interested</button>
+    <button class="filter-pill" data-status="proposal">Proposal Sent</button>
+    <button class="filter-pill" data-status="won">Won</button>
+    <button class="filter-pill" data-status="lost">Lost</button>
+    <div class="filter-sep"></div>
+    <select class="sort-select" id="sortSelect" onchange="renderLeads()">
+      <option value="score">Sort: Score</option>
+      <option value="rating">Sort: Rating</option>
+      <option value="name">Sort: Name</option>
+      <option value="newest">Sort: Newest</option>
+    </select>
+  </div>
+
+  <!-- REVENUE STRIP -->
+  <div class="revenue-strip" id="revenueStrip">
+    <span>💰 Potential revenue: <strong id="revenueVal">$0</strong></span>
+    <span>🤝 <strong id="interestedCount">0</strong> interested</span>
+    <span>🏆 <strong id="wonCount">0</strong> won</span>
+    <span>📊 <strong id="totalShowing">0</strong> leads showing</span>
+  </div>
+
+  <!-- LEADS GRID -->
+  <div class="leads-area">
+    <div class="leads-grid" id="leadsGrid"></div>
+  </div>
+
+</div>
+
+<!-- ══ MODAL ══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalIfBg(event)">
+  <div class="modal" id="modalBox">
+
+    <div class="modal-header">
+      <div class="modal-avatar" id="m-avatar"></div>
+      <div class="modal-header-info">
+        <div class="modal-title" id="m-name"></div>
+        <div class="modal-pills" id="m-pills"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- LEFT -->
+      <div class="modal-left">
+
+        <div class="modal-section">
+          <div class="modal-section-title">Quick Stats</div>
+          <div class="quick-stats" id="m-quickstats"></div>
+        </div>
+
+        <div class="modal-section">
+          <div class="score-ring" id="m-scorering"></div>
+          <select class="status-select" id="m-status" onchange="saveStatus()">
+            <option value="new">🔵 New</option>
+            <option value="contacted">🔷 Contacted</option>
+            <option value="interested">🟡 Interested</option>
+            <option value="proposal">🟢 Proposal Sent</option>
+            <option value="won">✅ Won</option>
+            <option value="lost">🔴 Lost</option>
+          </select>
+          <button class="add-queue-btn" onclick="addToQueue()">+ Add to Pitch Queue</button>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">About</div>
+          <div class="desc-text" id="m-desc"></div>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Details</div>
+          <div id="m-details"></div>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Menu Highlights</div>
+          <ul class="menu-list" id="m-menu"></ul>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Social</div>
+          <div id="m-social"></div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="modal-right">
+
+        <!-- CONTACT -->
+        <div class="contact-card highlighted" id="m-contact"></div>
+
+        <!-- PITCH ASSISTANT -->
+        <div class="pitch-card">
+          <div class="pitch-label">⚡ Pitch Assistant</div>
+          <div class="pitch-notes" id="m-pitchnotes"></div>
+          <button class="copy-email-btn" id="copyEmailBtn" onclick="copyEmail()">📋 Copy Cold Email</button>
+          <div class="email-preview" id="m-emailpreview"></div>
+        </div>
+
+        <!-- ACTIVITY LOG -->
+        <div class="activity-card">
+          <div class="modal-section-title">Activity Log</div>
+          <div class="activity-actions">
+            <button class="act-btn" onclick="logActivity('Called')">📞 Log Call</button>
+            <button class="act-btn" onclick="logActivity('Email sent')">📧 Log Email Sent</button>
+            <button class="act-btn" onclick="logActivity('Left voicemail')">🔊 Voicemail</button>
+            <button class="act-btn" onclick="logActivity('No answer')">❌ No Answer</button>
+          </div>
+          <textarea class="note-input" id="noteInput" rows="2" placeholder="Add a note..."></textarea>
+          <button class="note-submit" onclick="addNote()">Save Note</button>
+          <div class="activity-timeline" id="m-activity"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="modal-kbd">
+      <div class="kbd-hint"><span class="kbd">E</span> Email</div>
+      <div class="kbd-hint"><span class="kbd">C</span> Call</div>
+      <div class="kbd-hint"><span class="kbd">N</span> Next lead</div>
+      <div class="kbd-hint"><span class="kbd">P</span> Prev lead</div>
+      <div class="kbd-hint"><span class="kbd">Esc</span> Close</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// LEADS DATA
+// ══════════════════════════════════════════════
+const LEADS_DATA = [
+  {
+    "id":"lead_001","businessName":"Odd Seoul","category":"Restaurant","cuisine":"Korean",
+    "neighborhood":"Kensington Market","address":"167 Augusta Ave, Toronto, ON M5T 2L4",
+    "phone":"416-551-7779","website":"https://www.oddseoul.com","ubereatsUrl":"https://www.ubereats.com/ca/store/odd-seoul",
+    "rating":4.7,"reviewCount":340,"priceRange":"$$","hasApp":false,
+    "menuItems":["Korean Fried Chicken","Tteokbokki","Kimchi Pancakes","Korean Corn Dog","Soju Cocktails"],
+    "instagram":"@oddseoul","instagramFollowers":"8.2k","facebook":"",
+    "decisionMaker":{"name":"Jenny Kim","title":"Owner","email":"jenny@oddseoul.com","emailVerified":false,"phone":"416-551-7779","linkedin":""},
+    "description":"Trendy Korean street food spot in Kensington Market serving elevated comfort food with a bold, youthful brand. Known for their viral Korean corn dogs and crispy fried chicken. Heavy Instagram presence and a loyal Gen Z following.",
+    "pitchNotes":"Odd Seoul has a cult following on Instagram and a menu built for repeat visits. A branded app with loyalty rewards and mobile ordering would let them monetize that following directly — push notifications alone could drive huge return traffic on slow nights.",
+    "leadScore":78,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_002","businessName":"Hanmoto","category":"Restaurant","cuisine":"Japanese",
+    "neighborhood":"Dundas West","address":"2 Lakeview Ave, Toronto, ON M6J 3B2",
+    "phone":"416-536-0359","website":"https://www.hanmoto.com","ubereatsUrl":"https://www.ubereats.com/ca/store/hanmoto",
+    "rating":4.6,"reviewCount":512,"priceRange":"$$","hasApp":false,
+    "menuItems":["Gyozas","Ramen","Karaage Chicken","Japanese Highballs","Sashimi"],
+    "instagram":"@hanmoto_toronto","instagramFollowers":"12.4k","facebook":"https://facebook.com/hanmoto",
+    "decisionMaker":{"name":"Andrew Griggs","title":"Owner","email":"andrew@hanmoto.com","emailVerified":false,"phone":"416-536-0359","linkedin":"https://linkedin.com/in/andrewgriggs"},
+    "description":"Beloved izakaya-style Japanese restaurant on Dundas West with a warm, neighbourhood bar atmosphere. Known for handmade gyoza and excellent ramen. Strong repeat customer base and highly engaged Instagram community.",
+    "pitchNotes":"Hanmoto has the perfect repeat-visit business model for a loyalty app. Their regulars come weekly — push notifications for specials and a digital stamp card would print money for them.",
+    "leadScore":82,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_003","businessName":"Roselle Desserts","category":"Dessert","cuisine":"Patisserie",
+    "neighborhood":"Queen West","address":"362 King St W, Toronto, ON M5V 1K2",
+    "phone":"416-645-0404","website":"https://roselle.ca","ubereatsUrl":"https://www.ubereats.com/ca/store/roselle-desserts",
+    "rating":4.8,"reviewCount":720,"priceRange":"$$","hasApp":false,
+    "menuItems":["Tarts","Croissants","Soft Serve","Pastries","Seasonal Specials"],
+    "instagram":"@roselledesserts","instagramFollowers":"42k","facebook":"https://facebook.com/roselledesserts",
+    "decisionMaker":{"name":"Stephanie Duong","title":"Owner / Pastry Chef","email":"hello@roselle.ca","emailVerified":true,"phone":"416-645-0404","linkedin":""},
+    "description":"Award-winning pastry shop and cafe known for visually stunning, Instagram-worthy desserts. Stephanie Duong is a celebrated pastry chef with massive social media presence. Consistent lineups, high-demand seasonal drops, and a loyal following that sells out daily.",
+    "pitchNotes":"Roselle already has viral demand — a mobile app would let them do pre-order drops like Supreme does merch. Mobile ordering plus loyalty rewards plus push notifications for new seasonal releases would convert their Instagram followers into paying app users instantly.",
+    "leadScore":95,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_004","businessName":"Kinton Ramen","category":"Restaurant","cuisine":"Japanese / Ramen",
+    "neighborhood":"Downtown Core","address":"51 Baldwin St, Toronto, ON M5T 1L1",
+    "phone":"647-748-3833","website":"https://www.kintonramen.com","ubereatsUrl":"https://www.ubereats.com/ca/store/kinton-ramen",
+    "rating":4.5,"reviewCount":1240,"priceRange":"$$","hasApp":false,
+    "menuItems":["Tonkotsu Ramen","Miso Ramen","Gyoza","Karaage","Soft Boiled Egg"],
+    "instagram":"@kintonramen","instagramFollowers":"28k","facebook":"https://facebook.com/kintonramen",
+    "decisionMaker":{"name":"Masa Sakashita","title":"Founder","email":"info@kintonramen.com","emailVerified":false,"phone":"647-748-3833","linkedin":""},
+    "description":"Toronto's most popular independent ramen chain with multiple locations, still independently owned. Authentic tonkotsu-style ramen with consistently long lines. Strong brand recognition and a very loyal fanbase.",
+    "pitchNotes":"Kinton's multi-location setup makes them ideal for a loyalty program — customers can earn points across all locations. An order-ahead app on busy nights would reduce their notorious wait times and win serious goodwill.",
+    "leadScore":74,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_005","businessName":"White Lily Diner","category":"Restaurant","cuisine":"Brunch",
+    "neighborhood":"Leslieville","address":"678 Queen St E, Toronto, ON M4M 1G9",
+    "phone":"416-465-0425","website":"https://www.whitelilydiner.com","ubereatsUrl":"https://www.ubereats.com/ca/store/white-lily-diner",
+    "rating":4.6,"reviewCount":890,"priceRange":"$$","hasApp":false,
+    "menuItems":["Eggs Benedict","Pancake Stack","Breakfast Burrito","Lemon Curd Toast","Mimosas"],
+    "instagram":"@whitelilydiner","instagramFollowers":"15.3k","facebook":"https://facebook.com/whitelilydiner",
+    "decisionMaker":{"name":"Kira Lum","title":"Owner","email":"kira@whitelilydiner.com","emailVerified":false,"phone":"416-465-0425","linkedin":""},
+    "description":"A beloved Leslieville brunch institution with a charming retro diner aesthetic and a fanatically loyal neighbourhood following. Famous for long weekend lines and creative daily specials.",
+    "pitchNotes":"White Lily's brunch lineup is legendary — a loyalty app with digital waitlist management and rewards would turn that lineup frustration into a feature. Push them a notification when their table is ready.",
+    "leadScore":80,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_006","businessName":"Campagnolo","category":"Restaurant","cuisine":"Italian",
+    "neighborhood":"Dundas West","address":"832 Dundas St W, Toronto, ON M6J 1V4",
+    "phone":"416-364-4785","website":"https://campagnolo.ca","ubereatsUrl":"https://www.ubereats.com/ca/store/campagnolo",
+    "rating":4.7,"reviewCount":610,"priceRange":"$$$","hasApp":false,
+    "menuItems":["House-Made Pasta","Wood-Fired Chicken","Antipasti Board","Tiramisu","Natural Wine"],
+    "instagram":"@campagnoloto","instagramFollowers":"9.8k","facebook":"",
+    "decisionMaker":{"name":"Craig Harding","title":"Chef / Owner","email":"info@campagnolo.ca","emailVerified":false,"phone":"416-364-4785","linkedin":""},
+    "description":"Sophisticated Italian neighbourhood restaurant run by chef Craig Harding, known for house-made pasta and regional Italian cuisine. Intimate dining room with a strong wine program and devoted regulars.",
+    "pitchNotes":"Campagnolo's upscale positioning makes a branded loyalty app a status symbol for their regulars. Table reservations, exclusive menu previews, and a loyalty stamp card would be an easy sell.",
+    "leadScore":77,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_007","businessName":"Demetres","category":"Dessert","cuisine":"Dessert Cafe",
+    "neighborhood":"North York","address":"2452 Yonge St, Toronto, ON M4P 2H5",
+    "phone":"416-485-3222","website":"https://demetres.ca","ubereatsUrl":"https://www.ubereats.com/ca/store/demetres",
+    "rating":4.5,"reviewCount":1820,"priceRange":"$$","hasApp":false,
+    "menuItems":["Waffles","Crepes","Sundaes","Milkshakes","Hot Chocolate"],
+    "instagram":"@demetres","instagramFollowers":"31k","facebook":"https://facebook.com/demetres",
+    "decisionMaker":{"name":"Maria Pappas","title":"Owner","email":"hello@demetres.ca","emailVerified":false,"phone":"416-485-3222","linkedin":""},
+    "description":"Toronto's iconic dessert cafe institution with multiple locations, famous for elaborate ice cream sundaes, crepes, and waffles. A date-night staple and celebration destination for over 30 years.",
+    "pitchNotes":"Demetres has the volume and brand loyalty that makes a mobile rewards app extremely valuable. Digital punch cards for regulars, birthday rewards, and mobile pre-ordering would reduce their notorious weekend wait times.",
+    "leadScore":83,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_008","businessName":"Forno Cultura","category":"Bakery","cuisine":"Italian Bakery",
+    "neighborhood":"King West","address":"609 King St W, Toronto, ON M5V 1M5",
+    "phone":"416-603-8305","website":"https://fornocultura.com","ubereatsUrl":"https://www.ubereats.com/ca/store/forno-cultura",
+    "rating":4.8,"reviewCount":980,"priceRange":"$$","hasApp":false,
+    "menuItems":["Sourdough Loaves","Cornetti","Focaccia","Espresso","Seasonal Pastries"],
+    "instagram":"@fornocultura","instagramFollowers":"37k","facebook":"https://facebook.com/fornocultura",
+    "decisionMaker":{"name":"Andrea Mastrandrea","title":"Founder / Baker","email":"andrea@fornocultura.com","emailVerified":false,"phone":"416-603-8305","linkedin":"https://linkedin.com/in/andreamastrandrea"},
+    "description":"Celebrated Italian-Canadian artisan bakery and cafe led by founder Andrea Mastrandrea. Known for slow-fermented sourdough, Neapolitan pastries, and single-origin coffee. Multiple Toronto locations with an intensely loyal following.",
+    "pitchNotes":"Forno Cultura sells out daily — a mobile pre-order app would let fans reserve loaves in advance (a huge demand problem they have) and collect loyalty points. They have the brand prestige to make a premium app feel on-brand.",
+    "leadScore":88,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_009","businessName":"Pho Linh","category":"Restaurant","cuisine":"Vietnamese",
+    "neighborhood":"Scarborough","address":"3262 Midland Ave, Scarborough, ON M1V 1Y7",
+    "phone":"416-335-0090","website":"","ubereatsUrl":"https://www.ubereats.com/ca/store/pho-linh",
+    "rating":4.6,"reviewCount":2140,"priceRange":"$","hasApp":false,
+    "menuItems":["Beef Pho","Spring Rolls","Bun Bo Hue","Vermicelli Bowls","Vietnamese Iced Coffee"],
+    "instagram":"","instagramFollowers":"","facebook":"",
+    "decisionMaker":{"name":"Linh Nguyen","title":"Owner","email":"","emailVerified":false,"phone":"416-335-0090","linkedin":""},
+    "description":"Scarborough's most beloved pho restaurant, treasured by the Vietnamese community and foodies alike. Cash-only, no frills, incredible broth. A neighbourhood institution for over 20 years.",
+    "pitchNotes":"Pho Linh's massive volume and loyal customer base make them a perfect fit for a simple loyalty app — digital punch cards and online ordering would modernize their operation without changing what makes them great.",
+    "leadScore":62,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_010","businessName":"The Broadview Restaurant","category":"Restaurant","cuisine":"Modern Canadian",
+    "neighborhood":"Riverside","address":"106 Broadview Ave, Toronto, ON M4M 2E6",
+    "phone":"416-362-8439","website":"https://thebroadviewhotel.com","ubereatsUrl":"",
+    "rating":4.5,"reviewCount":890,"priceRange":"$$$","hasApp":false,
+    "menuItems":["Rooftop Cocktails","Charcuterie Board","Oysters","Duck Confit","Craft Cocktails"],
+    "instagram":"@broadviewhotel","instagramFollowers":"22k","facebook":"https://facebook.com/broadviewhotel",
+    "decisionMaker":{"name":"Sandra Saad","title":"F&B Director","email":"dining@thebroadviewhotel.com","emailVerified":true,"phone":"416-362-8439","linkedin":""},
+    "description":"Iconic boutique hotel restaurant and rooftop bar in Riverside with some of Toronto's best skyline views. A major event venue and weekend hotspot. Strong brand presence and high-end customer base.",
+    "pitchNotes":"Broadview's rooftop is a premium experience — a branded app for event bookings, VIP reservation priority, and loyalty rewards for their regulars would match their upscale positioning perfectly.",
+    "leadScore":79,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_011","businessName":"Te Aro Coffee","category":"Cafe","cuisine":"Specialty Coffee",
+    "neighborhood":"Financial District","address":"68 Shuter St, Toronto, ON M5B 1B1",
+    "phone":"647-351-9199","website":"https://tearocoffee.com","ubereatsUrl":"https://www.ubereats.com/ca/store/te-aro-coffee",
+    "rating":4.7,"reviewCount":540,"priceRange":"$$","hasApp":false,
+    "menuItems":["Pour Over","Flat White","Cold Brew","Matcha Latte","Seasonal Batch"],
+    "instagram":"@tearocoffee","instagramFollowers":"14.1k","facebook":"",
+    "decisionMaker":{"name":"Ian Clark","title":"Owner","email":"ian@tearocoffee.com","emailVerified":false,"phone":"647-351-9199","linkedin":""},
+    "description":"Premium New Zealand-inspired specialty coffee cafe serving the Financial District crowd with world-class espresso and filter coffee. Known for their obsessive sourcing and training standards.",
+    "pitchNotes":"Te Aro's downtown morning rush is massive and consistent — a loyalty app with mobile pre-order is the killer feature for their office worker crowd who hate waiting in line. High-LTV customers who visit daily.",
+    "leadScore":81,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_012","businessName":"Sukho Thai","category":"Restaurant","cuisine":"Thai",
+    "neighborhood":"Yonge & Eglinton","address":"2184 Yonge St, Toronto, ON M4S 2B1",
+    "phone":"416-322-0806","website":"https://sukhothai.ca","ubereatsUrl":"https://www.ubereats.com/ca/store/sukho-thai",
+    "rating":4.4,"reviewCount":670,"priceRange":"$$","hasApp":false,
+    "menuItems":["Pad Thai","Green Curry","Mango Sticky Rice","Tom Yum","Thai Iced Tea"],
+    "instagram":"@sukhothaito","instagramFollowers":"6.7k","facebook":"https://facebook.com/sukhothaitoronto",
+    "decisionMaker":{"name":"Suda Panyarachun","title":"Owner","email":"info@sukhothai.ca","emailVerified":false,"phone":"416-322-0806","linkedin":""},
+    "description":"Authentic Thai restaurant near Yonge and Eglinton with traditional recipes and warm hospitality. A neighbourhood favourite for over 15 years with consistently busy dinner service and strong takeout orders.",
+    "pitchNotes":"Sukho Thai's high delivery volume makes them a strong candidate for a branded ordering app — they'd save on Uber Eats commissions alone. A loyalty stamp for their regulars would be easy to sell.",
+    "leadScore":70,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_013","businessName":"Byblos Toronto","category":"Restaurant","cuisine":"Middle Eastern",
+    "neighborhood":"King West","address":"11 Duncan St, Toronto, ON M5H 3G8",
+    "phone":"647-348-7941","website":"https://byblosmiddleeast.com","ubereatsUrl":"https://www.ubereats.com/ca/store/byblos",
+    "rating":4.6,"reviewCount":1340,"priceRange":"$$$","hasApp":false,
+    "menuItems":["Hummus","Lamb Flatbread","Kibbeh","Halloumi","Cocktails"],
+    "instagram":"@byblosrestaurant","instagramFollowers":"45k","facebook":"https://facebook.com/byblosrestaurant",
+    "decisionMaker":{"name":"Charles Khabouth","title":"Owner","email":"info@byblosmiddleeast.com","emailVerified":false,"phone":"647-348-7941","linkedin":"https://linkedin.com/in/charleskhabouth"},
+    "description":"Upscale and vibrant Middle Eastern restaurant in King West from hospitality icon Charles Khabouth. Stunning interiors, incredible food, and a see-and-be-seen crowd. One of Toronto's most celebrated dining experiences.",
+    "pitchNotes":"Byblos has the brand power to make a luxury app feel premium — VIP reservations, a points program for high-spend regulars, and event pre-sale access would be an easy sell to their affluent clientele.",
+    "leadScore":85,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_014","businessName":"Patois Restaurant","category":"Restaurant","cuisine":"Caribbean / Chinese",
+    "neighborhood":"Dundas West","address":"794 Dundas St W, Toronto, ON M6J 1V1",
+    "phone":"647-350-8999","website":"https://patoisrestaurant.com","ubereatsUrl":"https://www.ubereats.com/ca/store/patois",
+    "rating":4.6,"reviewCount":780,"priceRange":"$$","hasApp":false,
+    "menuItems":["Jerk Chicken & Waffles","Roti","Oxtail Fried Rice","Rum Punch","Plantain"],
+    "instagram":"@patoisrestaurant","instagramFollowers":"19.4k","facebook":"https://facebook.com/patoisrestaurant",
+    "decisionMaker":{"name":"Craig Wong","title":"Chef / Owner","email":"info@patoisrestaurant.com","emailVerified":false,"phone":"647-350-8999","linkedin":""},
+    "description":"Creative restaurant blending Caribbean and Chinese cuisine in a lively Dundas West space. Chef Craig Wong's unique fusion menu has made Patois one of Toronto's most talked-about dining experiences.",
+    "pitchNotes":"Patois has a buzzy, social-media-savvy audience and high repeat visit rate. A custom app with a loyalty program and weekend brunch queue management would be an immediate quality-of-life win.",
+    "leadScore":81,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_015","businessName":"Nadege Patisserie","category":"Bakery","cuisine":"French Patisserie",
+    "neighborhood":"Queen West","address":"780 Queen St W, Toronto, ON M6J 1G3",
+    "phone":"416-979-1994","website":"https://www.nadege-patisserie.com","ubereatsUrl":"https://www.ubereats.com/ca/store/nadege-patisserie",
+    "rating":4.8,"reviewCount":1150,"priceRange":"$$","hasApp":false,
+    "menuItems":["Macarons","Eclairs","Croissants","Custom Cakes","Choux"],
+    "instagram":"@nadege_patisserie","instagramFollowers":"51k","facebook":"https://facebook.com/nadegepatisserie",
+    "decisionMaker":{"name":"Nadege Nourian","title":"Founder / Head Pastry Chef","email":"nadege@nadege-patisserie.com","emailVerified":false,"phone":"416-979-1994","linkedin":""},
+    "description":"Lyon-born pastry chef Nadege Nourian's acclaimed patisserie bringing authentic French technique to Toronto. Multiple locations, internationally recognized macarons, and a global following.",
+    "pitchNotes":"Nadege's seasonal macaron drops and custom cake orders are perfect for an app-based pre-order and waitlist system. With 51k Instagram followers, converting even 5% to app users creates a massive direct marketing channel.",
+    "leadScore":93,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_016","businessName":"Descendant Detroit Style Pizza","category":"Restaurant","cuisine":"Pizza",
+    "neighborhood":"Leslieville","address":"1168 Queen St E, Toronto, ON M4M 1L4",
+    "phone":"437-887-7997","website":"https://www.descendantpizza.com","ubereatsUrl":"https://www.ubereats.com/ca/store/descendant-detroit-style-pizza",
+    "rating":4.7,"reviewCount":1680,"priceRange":"$$","hasApp":false,
+    "menuItems":["Detroit-Style Pizza","Pepperoni Pie","White Pizza","Vegan Options","Beer"],
+    "instagram":"@descendantpizza","instagramFollowers":"35k","facebook":"https://facebook.com/descendantpizza",
+    "decisionMaker":{"name":"Nick auf der Mauer","title":"Owner","email":"nick@descendantpizza.com","emailVerified":false,"phone":"437-887-7997","linkedin":""},
+    "description":"The shop that brought Detroit-style square pizza to Toronto and sparked a city-wide obsession. High-quality ingredients, a killer Instagram aesthetic, and massive lineups every weekend. Frequently sold out by early evening.",
+    "pitchNotes":"Descendant sells out constantly — a mobile pre-order app would solve their biggest operational problem and let customers reserve pies in advance. Push notifications for daily specials would drive insane engagement.",
+    "leadScore":91,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_017","businessName":"Uncle Betty's Diner","category":"Restaurant","cuisine":"Diner / Brunch",
+    "neighborhood":"Davisville","address":"2590 Yonge St, Toronto, ON M4P 2J2",
+    "phone":"416-483-8432","website":"https://www.unclebettys.com","ubereatsUrl":"https://www.ubereats.com/ca/store/uncle-bettys-diner",
+    "rating":4.4,"reviewCount":1340,"priceRange":"$$","hasApp":false,
+    "menuItems":["Breakfast Poutine","Diner Burger","Pancakes","Milkshakes","Eggs Benedict"],
+    "instagram":"@unclebettysdiner","instagramFollowers":"11.2k","facebook":"https://facebook.com/unclebettysdiner",
+    "decisionMaker":{"name":"Peter Kallistratos","title":"Owner","email":"peter@unclebettys.com","emailVerified":false,"phone":"416-483-8432","linkedin":""},
+    "description":"Beloved old-school diner with a fun, kitschy atmosphere and serious comfort food. A Davisville neighbourhood institution with loyal regulars and long weekend brunch lines. Known for enormous portions and playful menu.",
+    "pitchNotes":"Uncle Betty's weekend brunch demand is through the roof. A digital waitlist and loyalty stamp app would modernize their operations without losing their retro charm.",
+    "leadScore":71,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_018","businessName":"Banh Mi Boys","category":"Restaurant","cuisine":"Vietnamese",
+    "neighborhood":"Downtown Core","address":"392 Queen St W, Toronto, ON M5V 2A9",
+    "phone":"416-363-0588","website":"https://www.banhmiboys.com","ubereatsUrl":"https://www.ubereats.com/ca/store/banh-mi-boys",
+    "rating":4.5,"reviewCount":2100,"priceRange":"$","hasApp":false,
+    "menuItems":["Classic Banh Mi","Tacos","Kimchi Fries","Vietnamese Beef Brisket","Tofu Option"],
+    "instagram":"@banhmiboys","instagramFollowers":"23.8k","facebook":"https://facebook.com/banhmiboys",
+    "decisionMaker":{"name":"David Chau","title":"Co-Owner","email":"david@banhmiboys.com","emailVerified":false,"phone":"416-363-0588","linkedin":""},
+    "description":"Toronto's iconic Vietnamese sandwich shop that helped put banh mi on the city's culinary map. High-volume quick service with multiple downtown locations and a massive loyal following.",
+    "pitchNotes":"Banh Mi Boys' high-volume, quick-service model is perfect for mobile ordering. A loyalty punch app would be immediately useful and easy to pitch given their lunch rush line complaints.",
+    "leadScore":79,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_019","businessName":"Manos Greek Taverna","category":"Restaurant","cuisine":"Greek",
+    "neighborhood":"The Danforth","address":"476 Danforth Ave, Toronto, ON M4K 1P6",
+    "phone":"416-461-5470","website":"https://manostaverna.com","ubereatsUrl":"",
+    "rating":4.5,"reviewCount":820,"priceRange":"$$","hasApp":false,
+    "menuItems":["Souvlaki","Spanakopita","Moussaka","Grilled Octopus","Baklava"],
+    "instagram":"@manostaverna","instagramFollowers":"5.4k","facebook":"https://facebook.com/manostaverna",
+    "decisionMaker":{"name":"Manos Papadopoulos","title":"Owner","email":"info@manostaverna.com","emailVerified":false,"phone":"416-461-5470","linkedin":""},
+    "description":"Authentic Greek taverna on the Danforth, the heart of Toronto's Greektown. Family-run for over 20 years with traditional recipes passed down generations. Lively patio during summer, always packed with regulars.",
+    "pitchNotes":"Manos Taverna's Danforth location means serious seasonal spikes. A loyalty app with push notifications for Greek Fest specials and summer patio events would drive massive engagement.",
+    "leadScore":67,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_020","businessName":"Morning Glory Breakfast","category":"Restaurant","cuisine":"Brunch",
+    "neighborhood":"Parkdale","address":"914 Queen St W, Toronto, ON M6J 1G5",
+    "phone":"416-588-3884","website":"https://morningglorytoronto.com","ubereatsUrl":"https://www.ubereats.com/ca/store/morning-glory",
+    "rating":4.6,"reviewCount":1580,"priceRange":"$$","hasApp":false,
+    "menuItems":["Avocado Toast","Ricotta Pancakes","Eggs Benny","Smoothie Bowls","Cold Brew"],
+    "instagram":"@morningglorytoronto","instagramFollowers":"18.7k","facebook":"https://facebook.com/morningglorytoronto",
+    "decisionMaker":{"name":"Tracey Lee","title":"Owner","email":"hello@morningglorytoronto.com","emailVerified":false,"phone":"416-588-3884","linkedin":""},
+    "description":"Parkdale's favourite all-day breakfast and brunch cafe with a warm, plant-filled interior and an obsessively crafted menu. Known for Instagram-worthy plating and consistently long weekend queues.",
+    "pitchNotes":"Morning Glory's weekend lineups are their biggest operational challenge. A digital queue app with loyalty rewards would directly address their pain point while building a direct customer communication channel.",
+    "leadScore":80,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_021","businessName":"Ali's Doubles","category":"Restaurant","cuisine":"Caribbean",
+    "neighborhood":"Jane & Finch","address":"6 Falstaff Ave, Toronto, ON M6L 2E2",
+    "phone":"416-244-4122","website":"","ubereatsUrl":"https://www.ubereats.com/ca/store/alis-doubles",
+    "rating":4.8,"reviewCount":2360,"priceRange":"$","hasApp":false,
+    "menuItems":["Doubles","Roti","Curry Chicken","Channa","Sorrel Drink"],
+    "instagram":"@alisdoubles","instagramFollowers":"9.1k","facebook":"",
+    "decisionMaker":{"name":"Ali Mohammed","title":"Owner","email":"","emailVerified":false,"phone":"416-244-4122","linkedin":""},
+    "description":"Toronto's most iconic Trinidadian doubles shop, a pilgrimage destination for Toronto food lovers and a community cornerstone. Lines stretch down the street every morning.",
+    "pitchNotes":"Ali's Doubles has viral demand and a deeply loyal community. An order-ahead app would solve their single biggest problem (the legendary line) and let them scale capacity without sacrificing the experience.",
+    "leadScore":65,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_022","businessName":"Miku Toronto","category":"Restaurant","cuisine":"Japanese / Sushi",
+    "neighborhood":"Harbourfront","address":"10 Bay St, Toronto, ON M5J 2R8",
+    "phone":"647-347-7347","website":"https://mikurestaurant.com/toronto","ubereatsUrl":"",
+    "rating":4.7,"reviewCount":3100,"priceRange":"$$$$","hasApp":false,
+    "menuItems":["Aburi Sushi","Wagyu Tataki","Miku Roll","Omakase","Japanese Whisky"],
+    "instagram":"@mikutorontorestaurant","instagramFollowers":"67k","facebook":"https://facebook.com/mikutoronto",
+    "decisionMaker":{"name":"Seigo Nakamura","title":"Founder","email":"toronto@mikurestaurant.com","emailVerified":true,"phone":"647-347-7347","linkedin":""},
+    "description":"World-class aburi (flame-seared) sushi restaurant with breathtaking harbourfront views. Consistently ranked among the best restaurants in Toronto and Canada. Premium dining experience with a design-forward interior.",
+    "pitchNotes":"Miku's premium positioning makes a luxury app a natural fit — VIP reservation priority, omakase pre-booking, wine pairing add-ons, and a points program for high-spend regulars would all be compelling features.",
+    "leadScore":87,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_023","businessName":"Lamesa Filipino Kitchen","category":"Restaurant","cuisine":"Filipino",
+    "neighborhood":"Kensington Market","address":"669 College St, Toronto, ON M6G 1C4",
+    "phone":"416-533-3332","website":"https://lamesa.ca","ubereatsUrl":"https://www.ubereats.com/ca/store/lamesa-filipino-kitchen",
+    "rating":4.5,"reviewCount":610,"priceRange":"$$","hasApp":false,
+    "menuItems":["Crispy Pata","Sinigang","Adobo","Halo-Halo","Lechon Belly"],
+    "instagram":"@lamesa.to","instagramFollowers":"8.9k","facebook":"https://facebook.com/lamesatoronto",
+    "decisionMaker":{"name":"Rudy Boquiren","title":"Chef / Owner","email":"rudy@lamesa.ca","emailVerified":false,"phone":"416-533-3332","linkedin":""},
+    "description":"Toronto's pioneering Filipino restaurant that helped put Filipino cuisine on the city's culinary map. Rudy Boquiren's bold, elevated takes on traditional Filipino family dishes in a warm, community-driven space.",
+    "pitchNotes":"Lamesa has a passionate Filipino community following and growing mainstream recognition. A loyalty app would deepen their community ties and an online ordering platform would help them expand delivery reach.",
+    "leadScore":74,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_024","businessName":"Richmond Station","category":"Restaurant","cuisine":"Modern Canadian",
+    "neighborhood":"Downtown Core","address":"1 Richmond St W, Toronto, ON M5H 3W4",
+    "phone":"647-748-1444","website":"https://richmondstation.ca","ubereatsUrl":"",
+    "rating":4.6,"reviewCount":1450,"priceRange":"$$$","hasApp":false,
+    "menuItems":["Station Burger","Beef Tartare","House Charcuterie","Seasonal Mains","Craft Cocktails"],
+    "instagram":"@richmondstation","instagramFollowers":"20.1k","facebook":"https://facebook.com/richmondstation",
+    "decisionMaker":{"name":"Carl Heinrich","title":"Chef / Owner","email":"reservations@richmondstation.ca","emailVerified":true,"phone":"647-748-1444","linkedin":"https://linkedin.com/in/carlheinrich"},
+    "description":"Top Chef Canada winner Carl Heinrich's acclaimed farm-to-table restaurant in the heart of downtown Toronto. Known for exceptional cocktails, an outstanding burger, and one of Toronto's best brunch services.",
+    "pitchNotes":"Richmond Station's Top Chef pedigree and loyal following make them receptive to premium tools. A reservation-integrated loyalty program with VIP perks for top spenders would match their sophisticated brand.",
+    "leadScore":90,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  },
+  {
+    "id":"lead_025","businessName":"Cafe Cancan","category":"Cafe","cuisine":"French Cafe",
+    "neighborhood":"Queen West","address":"89 Ossington Ave, Toronto, ON M6J 2Z2",
+    "phone":"416-534-5866","website":"https://cafecancan.com","ubereatsUrl":"https://www.ubereats.com/ca/store/cafe-cancan",
+    "rating":4.6,"reviewCount":720,"priceRange":"$$","hasApp":false,
+    "menuItems":["Cafe Au Lait","Croissant","Quiche","French Toast","Pain au Chocolat"],
+    "instagram":"@cafecancan","instagramFollowers":"16.2k","facebook":"https://facebook.com/cafecancan",
+    "decisionMaker":{"name":"Sophie Leroux","title":"Owner","email":"sophie@cafecancan.com","emailVerified":false,"phone":"416-534-5866","linkedin":""},
+    "description":"Charming Parisian-style cafe on Ossington with a devoted morning crowd and Instagram-worthy pastry display. Known for their buttery croissants, excellent espresso, and effortlessly chic atmosphere.",
+    "pitchNotes":"Cafe Cancan's regular morning crowd is gold for a loyalty app — daily coffee buyers are the highest LTV customers possible. A punch card that rewards a free pastry after 10 visits would convert immediately.",
+    "leadScore":79,"status":"new","activityLog":[],"addedAt":"2026-03-01T04:00:00Z"
+  }
+];
+
+// ══════════════════════════════════════════════
+// APP STATE
+// ══════════════════════════════════════════════
+let currentFilter = 'all';
+let currentStatusFilter = 'all';
+let currentSort = 'score';
+let searchQuery = '';
+let currentLeadId = null;
+let filteredLeads = [];
+
+// Gradients for avatars
+const GRADIENTS = [
+  'linear-gradient(135deg,#7C3AED,#DB2777)',
+  'linear-gradient(135deg,#2563EB,#7C3AED)',
+  'linear-gradient(135deg,#059669,#0891B2)',
+  'linear-gradient(135deg,#D97706,#DC2626)',
+  'linear-gradient(135deg,#7C3AED,#06B6D4)',
+  'linear-gradient(135deg,#EC4899,#8B5CF6)',
+  'linear-gradient(135deg,#F59E0B,#EF4444)',
+  'linear-gradient(135deg,#10B981,#3B82F6)',
+  'linear-gradient(135deg,#6366F1,#EC4899)',
+  'linear-gradient(135deg,#0EA5E9,#6366F1)',
+];
+
+function getGradient(name) {
+  let hash = 0;
+  for (const c of name) hash = (hash * 31 + c.charCodeAt(0)) & 0xFFFFFFFF;
+  return GRADIENTS[Math.abs(hash) % GRADIENTS.length];
+}
+function getInitials(name) {
+  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+}
+
+// Load persisted state from localStorage
+function loadState() {
+  const saved = localStorage.getItem('leadz_state');
+  if (!saved) return;
+  const state = JSON.parse(saved);
+  LEADS_DATA.forEach(lead => {
+    if (state[lead.id]) {
+      lead.status = state[lead.id].status || lead.status;
+      lead.activityLog = state[lead.id].activityLog || lead.activityLog;
+      lead.inQueue = state[lead.id].inQueue || false;
+    }
+  });
+}
+
+function saveState() {
+  const state = {};
+  LEADS_DATA.forEach(l => {
+    state[l.id] = { status: l.status, activityLog: l.activityLog, inQueue: l.inQueue };
+  });
+  localStorage.setItem('leadz_state', JSON.stringify(state));
+}
+
+// ══════════════════════════════════════════════
+// FILTER + RENDER
+// ══════════════════════════════════════════════
+function filterLeads() {
+  let leads = [...LEADS_DATA];
+
+  // Sidebar filter
+  if (currentFilter === 'hot') leads = leads.filter(l => l.leadScore >= 80);
+  else if (currentFilter === 'queue') leads = leads.filter(l => l.inQueue);
+  else if (currentFilter.startsWith('cat-')) {
+    const cat = currentFilter.replace('cat-', '');
+    leads = leads.filter(l => l.category === cat);
+  } else if (currentFilter.startsWith('nb-')) {
+    const nb = currentFilter.replace('nb-', '');
+    leads = leads.filter(l => l.neighborhood === nb);
+  }
+
+  // Status filter
+  if (currentStatusFilter !== 'all') {
+    leads = leads.filter(l => l.status === currentStatusFilter);
+  }
+
+  // Search
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    leads = leads.filter(l =>
+      l.businessName.toLowerCase().includes(q) ||
+      l.neighborhood.toLowerCase().includes(q) ||
+      l.cuisine.toLowerCase().includes(q) ||
+      (l.decisionMaker.name || '').toLowerCase().includes(q)
+    );
+  }
+
+  // Sort
+  const sort = document.getElementById('sortSelect').value;
+  if (sort === 'score') leads.sort((a, b) => b.leadScore - a.leadScore);
+  else if (sort === 'rating') leads.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+  else if (sort === 'name') leads.sort((a, b) => a.businessName.localeCompare(b.businessName));
+  else if (sort === 'newest') leads.sort((a, b) => new Date(b.addedAt) - new Date(a.addedAt));
+
+  return leads;
+}
+
+function renderLeads() {
+  filteredLeads = filterLeads();
+  const grid = document.getElementById('leadsGrid');
+
+  // Update stats
+  const total = LEADS_DATA.length;
+  const withEmail = LEADS_DATA.filter(l => l.decisionMaker.emailVerified).length;
+  const withOwner = LEADS_DATA.filter(l => l.decisionMaker.name).length;
+  const contacted = LEADS_DATA.filter(l => l.status !== 'new').length;
+  const interested = LEADS_DATA.filter(l => l.status === 'interested' || l.status === 'proposal').length;
+  const won = LEADS_DATA.filter(l => l.status === 'won').length;
+
+  animateStat('stat-total', total);
+  animateStat('stat-email', withEmail);
+  animateStat('stat-owner', withOwner);
+  animateStat('stat-contacted', contacted);
+
+  document.getElementById('badge-all').textContent = total;
+  document.getElementById('badge-hot').textContent = LEADS_DATA.filter(l => l.leadScore >= 80).length;
+  document.getElementById('badge-queue').textContent = LEADS_DATA.filter(l => l.inQueue).length;
+
+  document.getElementById('revenueVal').textContent = '$' + ((interested + won) * 1500).toLocaleString();
+  document.getElementById('interestedCount').textContent = interested;
+  document.getElementById('wonCount').textContent = won;
+  document.getElementById('totalShowing').textContent = filteredLeads.length;
+
+  // Render cards
+  if (filteredLeads.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><span class="icon">🔍</span><h3>No leads found</h3><p>Try adjusting your filters or search query.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = filteredLeads.map((lead, i) => renderCard(lead, i)).join('');
+  grid.querySelectorAll('.lead-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('.card-btn')) return;
+      openModal(card.dataset.id);
+    });
+  });
+}
+
+function animateStat(id, target) {
+  const el = document.getElementById(id);
+  const current = parseInt(el.textContent) || 0;
+  if (current === target) return;
+  let start = null;
+  const step = (ts) => {
+    if (!start) start = ts;
+    const p = Math.min((ts - start) / 600, 1);
+    el.textContent = Math.round(current + (target - current) * (1 - Math.pow(1 - p, 3)));
+    if (p < 1) requestAnimationFrame(step);
+  };
+  requestAnimationFrame(step);
+}
+
+function renderCard(lead, index) {
+  const grad = getGradient(lead.businessName);
+  const initials = getInitials(lead.businessName);
+  const scoreClass = lead.leadScore >= 80 ? 'score-hot' : lead.leadScore >= 60 ? 'score-warm' : 'score-cold';
+  const statusClass = `s-${lead.status}`;
+  const statusLabel = {new:'New',contacted:'Contacted',interested:'Interested',proposal:'Proposal',won:'Won',lost:'Lost'}[lead.status] || lead.status;
+  const hasEmail = lead.decisionMaker.emailVerified || !!lead.decisionMaker.email;
+  const delay = Math.min(index * 40, 600);
+
+  const phone = lead.phone || lead.decisionMaker.phone || '';
+  const email = lead.decisionMaker.email || '';
+  const website = lead.website || '';
+
+  return `
+    <div class="lead-card" data-id="${lead.id}" style="animation-delay:${delay}ms">
+      <div class="card-status"><span class="status-pill ${statusClass}">${statusLabel}</span></div>
+      <div class="card-top">
+        <div class="card-avatar" style="background:${grad}">${initials}</div>
+        <div class="card-info">
+          <div class="card-name" title="${lead.businessName}">${lead.businessName}</div>
+          <div class="card-meta">
+            <span class="pill pill-cat">${lead.category}</span>
+            <span class="pill pill-neighborhood">${lead.neighborhood}</span>
+          </div>
+        </div>
+        <div class="score-badge ${scoreClass}">${lead.leadScore}</div>
+      </div>
+      <div class="card-rating">
+        <span class="stars">★★★★${lead.rating >= 4.5 ? '★' : '☆'}</span>
+        <span>${lead.rating}</span>
+        <span class="count">(${(lead.reviewCount || 0).toLocaleString()})</span>
+        ${lead.priceRange ? `<span class="count">· ${lead.priceRange}</span>` : ''}
+      </div>
+      <div class="card-contact">
+        <span class="contact-icon">👤</span>
+        <div class="contact-info">
+          <div class="contact-name">${lead.decisionMaker.name || 'Unknown'}</div>
+          <div class="contact-title">${lead.decisionMaker.title || 'Decision Maker'}</div>
+        </div>
+        <div class="email-dot ${hasEmail ? 'found' : 'notfound'}" title="${hasEmail ? 'Email found' : 'No email'}"></div>
+      </div>
+      <div class="card-actions">
+        ${phone ? `<button class="card-btn call" onclick="event.stopPropagation();window.location='tel:${phone}'" title="Call">📞 Call</button>` : ''}
+        ${email ? `<button class="card-btn email" onclick="event.stopPropagation();window.location='mailto:${email}?subject=Quick question about ${encodeURIComponent(lead.businessName)}'" title="Email">✉ Email</button>` : ''}
+        ${website ? `<button class="card-btn web" onclick="event.stopPropagation();window.open('${website}','_blank')" title="Website">🌐 Web</button>` : ''}
+        ${!phone && !email && !website ? `<button class="card-btn" onclick="openModal('${lead.id}')">→ View Profile</button>` : ''}
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════════
+function openModal(id) {
+  const lead = LEADS_DATA.find(l => l.id === id);
+  if (!lead) return;
+  currentLeadId = id;
+
+  const grad = getGradient(lead.businessName);
+  const initials = getInitials(lead.businessName);
+  const scoreClass = lead.leadScore >= 80 ? 'score-hot' : lead.leadScore >= 60 ? 'score-warm' : 'score-cold';
+
+  document.getElementById('m-avatar').style.background = grad;
+  document.getElementById('m-avatar').textContent = initials;
+  document.getElementById('m-name').textContent = lead.businessName;
+
+  document.getElementById('m-pills').innerHTML = `
+    <span class="pill pill-cat">${lead.category}</span>
+    <span class="pill pill-cuisine">${lead.cuisine}</span>
+    <span class="pill pill-neighborhood">${lead.neighborhood}</span>
+    ${lead.hasApp === false ? '<span class="pill" style="background:rgba(16,185,129,0.12);color:#10B981">No App</span>' : ''}
+  `;
+
+  // Quick stats
+  document.getElementById('m-quickstats').innerHTML = `
+    <div class="qs-box"><div class="qs-label">Rating</div><div class="qs-value">⭐ ${lead.rating || 'N/A'}</div></div>
+    <div class="qs-box"><div class="qs-label">Reviews</div><div class="qs-value">${(lead.reviewCount||0).toLocaleString()}</div></div>
+    <div class="qs-box"><div class="qs-label">Price</div><div class="qs-value">${lead.priceRange || 'N/A'}</div></div>
+    <div class="qs-box"><div class="qs-label">On Uber Eats</div><div class="qs-value" style="color:var(--green)">${lead.ubereatsUrl ? 'Yes' : 'No'}</div></div>
+  `;
+
+  // Score ring
+  const circumference = 2 * Math.PI * 22;
+  const offset = circumference * (1 - lead.leadScore / 100);
+  const ringColor = lead.leadScore >= 80 ? '#10B981' : lead.leadScore >= 60 ? '#F59E0B' : '#64748B';
+  document.getElementById('m-scorering').innerHTML = `
+    <svg class="ring-svg" viewBox="0 0 50 50">
+      <circle cx="25" cy="25" r="22" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="4"/>
+      <circle cx="25" cy="25" r="22" fill="none" stroke="${ringColor}" stroke-width="4"
+        stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"
+        stroke-linecap="round"/>
+    </svg>
+    <div>
+      <div class="ring-num" style="color:${ringColor}">${lead.leadScore}</div>
+      <div class="ring-label">Lead Score</div>
+    </div>
+  `;
+
+  // Status
+  document.getElementById('m-status').value = lead.status;
+
+  // Description
+  document.getElementById('m-desc').textContent = lead.description;
+
+  // Details
+  document.getElementById('m-details').innerHTML = `
+    ${lead.address ? `<div class="info-row"><span class="lbl">Address</span><a href="https://maps.google.com/?q=${encodeURIComponent(lead.address)}" target="_blank">${lead.address}</a></div>` : ''}
+    ${lead.phone ? `<div class="info-row"><span class="lbl">Phone</span><a href="tel:${lead.phone}">${lead.phone}</a></div>` : ''}
+    ${lead.website ? `<div class="info-row"><span class="lbl">Web</span><a href="${lead.website}" target="_blank">${lead.website.replace('https://','')}</a></div>` : ''}
+    ${lead.ubereatsUrl ? `<div class="info-row"><span class="lbl">Uber</span><a href="${lead.ubereatsUrl}" target="_blank">View on Uber Eats</a></div>` : ''}
+  `;
+
+  // Menu
+  document.getElementById('m-menu').innerHTML = (lead.menuItems || []).map(item => `<li>${item}</li>`).join('');
+
+  // Social
+  document.getElementById('m-social').innerHTML = `
+    ${lead.instagram ? `<div class="info-row"><span class="lbl">Instagram</span><a href="https://instagram.com/${lead.instagram.replace('@','')}" target="_blank">${lead.instagram} ${lead.instagramFollowers ? `(${lead.instagramFollowers})` : ''}</a></div>` : ''}
+    ${lead.facebook ? `<div class="info-row"><span class="lbl">Facebook</span><a href="${lead.facebook}" target="_blank">View page</a></div>` : ''}
+  `;
+
+  // Contact
+  const dm = lead.decisionMaker;
+  const emailTel = dm.email ? `mailto:${dm.email}?subject=Quick question about ${encodeURIComponent(lead.businessName)}&body=Hi ${dm.name ? dm.name.split(' ')[0] : 'there'},` : '';
+  document.getElementById('m-contact').innerHTML = `
+    <div class="modal-section-title">Decision Maker</div>
+    <div class="dm-name">${dm.name || 'Unknown'}</div>
+    <div class="dm-title">${dm.title || ''}</div>
+    <div class="contact-btn-row">
+      ${(dm.phone || lead.phone) ? `<a class="contact-big-btn btn-call" href="tel:${dm.phone || lead.phone}">
+        <span class="btn-icon">📞</span>
+        <div class="btn-content"><span class="btn-label">CALL NOW</span><span class="btn-val">${dm.phone || lead.phone}</span></div>
+      </a>` : `<div style="padding:12px;color:var(--text4);font-size:13px;">No phone on file</div>`}
+      ${dm.email ? `<a class="contact-big-btn btn-email" href="${emailTel}">
+        <span class="btn-icon">📧</span>
+        <div class="btn-content">
+          <span class="btn-label">EMAIL ${dm.emailVerified ? '✓ VERIFIED' : '— UNVERIFIED'}</span>
+          <span class="btn-val">${dm.email}</span>
+        </div>
+      </a>` : `<div style="padding:12px;color:var(--text4);font-size:13px;">No email found — check LinkedIn or About page</div>`}
+      ${dm.linkedin ? `<a class="contact-big-btn btn-linkedin" href="${dm.linkedin}" target="_blank">
+        <span class="btn-icon">💼</span>
+        <div class="btn-content"><span class="btn-label">LINKEDIN</span><span class="btn-val">View Profile</span></div>
+      </a>` : ''}
+    </div>
+  `;
+
+  // Pitch notes
+  document.getElementById('m-pitchnotes').textContent = lead.pitchNotes;
+
+  // Email preview
+  const firstName = dm.name ? dm.name.split(' ')[0] : 'there';
+  const emailBody = buildColdEmail(lead, firstName);
+  document.getElementById('m-emailpreview').innerHTML = `<span class="subj">Subject: Quick question about ${lead.businessName}</span>${emailBody}`;
+  document.getElementById('copyEmailBtn').classList.remove('copied');
+  document.getElementById('copyEmailBtn').textContent = '📋 Copy Cold Email';
+
+  // Activity log
+  renderActivity(lead);
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function buildColdEmail(lead, firstName) {
+  const cat = lead.category.toLowerCase();
+  return `Hi ${firstName},
+
+I came across ${lead.businessName} on ${lead.ubereatsUrl ? 'Uber Eats' : 'Google'} and wanted to reach out directly.
+
+I build custom branded apps for ${cat} spots in Toronto — mobile ordering, loyalty rewards, push notifications, all under your name on the App Store and Google Play. ${lead.pitchNotes.split('.')[0]}.
+
+Flat rate, $1,500, no monthly fees to start. Worth a quick 5-minute call this week?
+
+Ben Balmont
+ben@balmontcreatives.com
+647-555-0182`;
+}
+
+function copyEmail() {
+  const lead = LEADS_DATA.find(l => l.id === currentLeadId);
+  if (!lead) return;
+  const dm = lead.decisionMaker;
+  const firstName = dm.name ? dm.name.split(' ')[0] : 'there';
+  const subject = `Quick question about ${lead.businessName}`;
+  const body = buildColdEmail(lead, firstName);
+  navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`).then(() => {
+    const btn = document.getElementById('copyEmailBtn');
+    btn.textContent = '✓ Copied!';
+    btn.classList.add('copied');
+    showToast('Cold email copied to clipboard');
+    setTimeout(() => { btn.textContent = '📋 Copy Cold Email'; btn.classList.remove('copied'); }, 2500);
+  });
+}
+
+function renderActivity(lead) {
+  const container = document.getElementById('m-activity');
+  if (!lead.activityLog || lead.activityLog.length === 0) {
+    container.innerHTML = `<div class="activity-empty">No activity yet. Log a call or send an email.</div>`;
+    return;
+  }
+  container.innerHTML = lead.activityLog.slice(-10).reverse().map(item => `
+    <div class="activity-item">
+      <span class="time">${new Date(item.time).toLocaleDateString('en-CA',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
+      <span class="action">${item.action}</span>
+    </div>
+  `).join('');
+}
+
+function saveStatus() {
+  const lead = LEADS_DATA.find(l => l.id === currentLeadId);
+  if (!lead) return;
+  lead.status = document.getElementById('m-status').value;
+  saveState();
+  renderLeads();
+  showToast(`Status updated to "${lead.status}"`);
+}
+
+function addToQueue() {
+  const lead = LEADS_DATA.find(l => l.id === currentLeadId);
+  if (!lead) return;
+  lead.inQueue = !lead.inQueue;
+  saveState();
+  renderLeads();
+  showToast(lead.inQueue ? 'Added to Pitch Queue' : 'Removed from Pitch Queue');
+}
+
+function logActivity(action) {
+  const lead = LEADS_DATA.find(l => l.id === currentLeadId);
+  if (!lead) return;
+  lead.activityLog = lead.activityLog || [];
+  lead.activityLog.push({ time: new Date().toISOString(), action });
+  if (action === 'Called' || action === 'Email sent') {
+    lead.status = 'contacted';
+    document.getElementById('m-status').value = 'contacted';
+  }
+  saveState();
+  renderActivity(lead);
+  renderLeads();
+  showToast(action + ' logged');
+}
+
+function addNote() {
+  const input = document.getElementById('noteInput');
+  if (!input.value.trim()) return;
+  logActivity('Note: ' + input.value.trim());
+  input.value = '';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentLeadId = null;
+}
+
+function closeModalIfBg(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+  if (!currentLeadId) return;
+  const lead = LEADS_DATA.find(l => l.id === currentLeadId);
+  const idx = filteredLeads.findIndex(l => l.id === currentLeadId);
+
+  if (e.key === 'Escape') { closeModal(); return; }
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+
+  if (e.key === 'e' || e.key === 'E') {
+    const email = lead.decisionMaker.email;
+    if (email) window.location = `mailto:${email}?subject=Quick question about ${encodeURIComponent(lead.businessName)}`;
+  }
+  if (e.key === 'c' || e.key === 'C') {
+    const phone = lead.phone || lead.decisionMaker.phone;
+    if (phone) window.location = `tel:${phone}`;
+  }
+  if (e.key === 'n' || e.key === 'N') {
+    if (idx < filteredLeads.length - 1) openModal(filteredLeads[idx + 1].id);
+  }
+  if (e.key === 'p' || e.key === 'P') {
+    if (idx > 0) openModal(filteredLeads[idx - 1].id);
+  }
+});
+
+// ══════════════════════════════════════════════
+// FILTERS
+// ══════════════════════════════════════════════
+document.querySelectorAll('.nav-item[data-filter]').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    currentFilter = item.dataset.filter;
+    renderLeads();
+  });
+});
+
+document.querySelectorAll('.filter-pill[data-status]').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    currentStatusFilter = pill.dataset.status;
+    renderLeads();
+  });
+});
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  searchQuery = e.target.value;
+  renderLeads();
+});
+
+// ══════════════════════════════════════════════
+// EXPORT
+// ══════════════════════════════════════════════
+function exportCSV() {
+  const headers = ['Name','Category','Neighborhood','Phone','Email','Owner','Rating','Score','Status','Website'];
+  const rows = filteredLeads.map(l => [
+    l.businessName, l.category, l.neighborhood,
+    l.phone || '', l.decisionMaker.email || '',
+    l.decisionMaker.name || '', l.rating || '',
+    l.leadScore, l.status, l.website || ''
+  ].map(v => `"${v}"`).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'leadz-toronto-restaurants.csv'; a.click();
+  showToast(`Exported ${filteredLeads.length} leads as CSV`);
+}
+
+function copyAllEmails() {
+  const emails = filteredLeads.map(l => l.decisionMaker.email).filter(Boolean);
+  if (!emails.length) { showToast('No emails in current filter'); return; }
+  navigator.clipboard.writeText(emails.join(', ')).then(() => showToast(`Copied ${emails.length} emails to clipboard`));
+}
+
+// ══════════════════════════════════════════════
+// TOAST
+// ══════════════════════════════════════════════
+let toastTimer;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = '✓ ' + msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+loadState();
+renderLeads();
+</script>
+</body>
+</html>
