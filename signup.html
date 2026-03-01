@@ -867,35 +867,63 @@ function buildSummary() {
     </div>`;
 }
 
-function startTrial() {
-  // Save to localStorage
+async function startTrial() {
+  const btn = document.getElementById('btn-trial');
+  btn.textContent = '⏳ Setting up your account...';
+  btn.disabled = true;
+
+  // Save state
   state.name = document.getElementById('userName') ? document.getElementById('userName').value : state.name;
   state.email = document.getElementById('userEmail') ? document.getElementById('userEmail').value : state.email;
   state.phone = document.getElementById('userPhone') ? document.getElementById('userPhone').value : '';
   state.offer = document.getElementById('offerSentence') ? document.getElementById('offerSentence').value : state.offer;
 
-  localStorage.setItem('leadz_user', JSON.stringify({
+  const finalNiche = state.niche === 'other' ? (document.getElementById('otherNiche').value || 'Other') : state.niche;
+
+  const userData = {
     name: state.name,
     email: state.email,
     phone: state.phone,
     offer: state.offer,
-    niche: state.niche === 'other' ? (document.getElementById('otherNiche').value || 'Other') : state.niche,
+    niche: finalNiche,
     city: state.city,
     radius: state.radius,
     targets: state.targets,
     plan: state.plan,
     trialStart: new Date().toISOString()
-  }));
-
-  // Redirect to checkout based on plan
-  const checkoutUrls = {
-    starter: 'https://leadz.lemonsqueezy.com/checkout/buy/starter',
-    pro: 'https://leadz.lemonsqueezy.com/checkout/buy/pro',
-    agency: 'https://leadz.lemonsqueezy.com/checkout/buy/agency'
   };
 
-  // For now, redirect to dashboard (payment integration coming soon)
-  window.location.href = 'dashboard.html?plan=' + state.plan + '&trial=true';
+  // Save to localStorage for dashboard personalization
+  localStorage.setItem('leadz_user', JSON.stringify(userData));
+
+  // Submit to Formspree to notify Ben
+  try {
+    const planPrices = { starter: '$49/mo', pro: '$99/mo', agency: '$299/mo' };
+    await fetch('https://formspree.io/f/xkgwnkdo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `🚀 New Leadz Trial Signup — ${state.plan.toUpperCase()} (${planPrices[state.plan]})`,
+        name: state.name,
+        email: state.email,
+        phone: state.phone,
+        plan: `${state.plan} — ${planPrices[state.plan]}`,
+        niche: finalNiche,
+        city: state.city + ' (' + state.radius + ')',
+        targets: state.targets.join(', '),
+        offer: state.offer,
+        timestamp: new Date().toLocaleString()
+      })
+    });
+  } catch(e) { /* fail silently */ }
+
+  // Show success state
+  btn.textContent = '✅ Account Created!';
+
+  // Redirect to dashboard with trial parameters
+  setTimeout(() => {
+    window.location.href = 'dashboard.html?plan=' + state.plan + '&trial=true&name=' + encodeURIComponent(state.name);
+  }, 800);
 }
 
 // Init

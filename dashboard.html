@@ -1045,8 +1045,8 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Stephanie Duong",
       "title": "Owner/Pastry Chef",
-      "email": "hello@roselle.ca",
-      "emailVerified": true,
+      "email": "",
+      "emailVerified": false,
       "phone": "416-645-0404",
       "linkedin": ""
     },
@@ -1084,7 +1084,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Masa Sakashita",
       "title": "Founder",
-      "email": "info@kintonramen.com",
+      "email": "",
       "emailVerified": false,
       "phone": "647-748-3833",
       "linkedin": ""
@@ -1162,7 +1162,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Craig Harding",
       "title": "Chef/Owner",
-      "email": "info@campagnolo.ca",
+      "email": "",
       "emailVerified": false,
       "phone": "416-364-4785",
       "linkedin": ""
@@ -1201,7 +1201,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Maria Pappas",
       "title": "Owner",
-      "email": "hello@demetres.ca",
+      "email": "",
       "emailVerified": false,
       "phone": "416-485-3222",
       "linkedin": ""
@@ -1396,7 +1396,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Suda Panyarachun",
       "title": "Owner",
-      "email": "info@sukhothai.ca",
+      "email": "",
       "emailVerified": false,
       "phone": "416-322-0806",
       "linkedin": ""
@@ -1435,7 +1435,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Charles Khabouth",
       "title": "Owner",
-      "email": "info@byblosmiddleeast.com",
+      "email": "",
       "emailVerified": false,
       "phone": "647-348-7941",
       "linkedin": "https://linkedin.com/in/charleskhabouth"
@@ -1474,7 +1474,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Craig Wong",
       "title": "Chef/Owner",
-      "email": "info@patoisrestaurant.com",
+      "email": "",
       "emailVerified": false,
       "phone": "647-350-8999",
       "linkedin": ""
@@ -1669,7 +1669,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Manos Papadopoulos",
       "title": "Owner",
-      "email": "info@manostaverna.com",
+      "email": "",
       "emailVerified": false,
       "phone": "416-461-5470",
       "linkedin": ""
@@ -1708,7 +1708,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Tracey Lee",
       "title": "Owner",
-      "email": "hello@morningglorytoronto.com",
+      "email": "",
       "emailVerified": false,
       "phone": "416-588-3884",
       "linkedin": ""
@@ -1864,7 +1864,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Eugenia Bayada",
       "title": "Owner",
-      "email": "hello@cafebelong.ca",
+      "email": "",
       "emailVerified": false,
       "phone": "416-425-1105",
       "linkedin": ""
@@ -2449,7 +2449,7 @@ const LEADS_DATA = [
     "decisionMaker": {
       "name": "Dr. Anita Kapoor",
       "title": "Principal Dentist / Owner",
-      "email": "info@dranita.ca",
+      "email": "",
       "emailVerified": false,
       "phone": "905-456-7890",
       "linkedin": ""
@@ -3058,10 +3058,60 @@ function showToast(msg) {
 }
 
 // ══════════════════════════════════════════════
+// TRIAL WELCOME + USER PERSONALIZATION
+// ══════════════════════════════════════════════
+function initUserSession() {
+  const params = new URLSearchParams(window.location.search);
+  const isTrial = params.get('trial') === 'true';
+  const planParam = params.get('plan');
+  const nameParam = params.get('name');
+  
+  // Update plan badge from localStorage
+  const user = getUserProfile();
+  if (user && user.plan) {
+    const planBadge = document.querySelector('.logo-plan');
+    if (planBadge) {
+      const planNames = { starter: 'STARTER', pro: 'PRO', agency: 'AGENCY' };
+      planBadge.textContent = planNames[user.plan] || 'PRO';
+    }
+  }
+  
+  if (isTrial) {
+    const name = nameParam || (user && user.name) || 'there';
+    const plan = planParam || (user && user.plan) || 'pro';
+    showTrialWelcome(name, plan);
+  }
+}
+
+function showTrialWelcome(name, plan) {
+  const planColors = { starter: '#F59E0B', pro: '#7C3AED', agency: '#06B6D4' };
+  const color = planColors[plan] || '#7C3AED';
+  
+  const banner = document.createElement('div');
+  banner.style.cssText = `
+    position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+    background: linear-gradient(135deg, ${color}, ${color}cc);
+    color: white; padding: 12px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 14px; font-weight: 600; font-family: 'Inter', sans-serif;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+  `;
+  banner.innerHTML = `
+    <span>🎉 Welcome to Leadz, ${name}! Your 7-day free trial has started. Explore your leads below.</span>
+    <button onclick="this.parentNode.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;cursor:pointer;padding:4px 12px;border-radius:6px;font-size:13px;">✕</button>
+  `;
+  document.body.insertBefore(banner, document.body.firstChild);
+  
+  // Auto-dismiss after 8 seconds
+  setTimeout(() => banner.remove(), 8000);
+}
+
+// ══════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════
 loadState();
 renderLeads();
+initUserSession();
 </script>
 </body>
 </html>
