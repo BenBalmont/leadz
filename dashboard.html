@@ -706,6 +706,12 @@
     <div class="nav-item" data-filter="cat-Dental"><span class="icon">🦷</span> Dental <span class="nav-badge" id="badge-cat-Dental">0</span></div>
     <div class="nav-item" data-filter="cat-Real Estate"><span class="icon">🏡</span> Real Estate <span class="nav-badge" id="badge-cat-Real Estate">0</span></div>
     <div class="nav-item" data-filter="cat-Contractor"><span class="icon">🔧</span> Contractors <span class="nav-badge" id="badge-cat-Contractor">0</span></div>
+    <div class="nav-item" data-filter="cat-Law Firm"><span class="icon">⚖️</span> Law Firms <span class="nav-badge" id="badge-cat-Law Firm">0</span></div>
+    <div class="nav-item" data-filter="cat-Accounting Firm"><span class="icon">🧮</span> Accountants <span class="nav-badge" id="badge-cat-Accounting Firm">0</span></div>
+    <div class="nav-item" data-filter="cat-Physiotherapy"><span class="icon">🦴</span> Physio/Chiro <span class="nav-badge" id="badge-cat-Physiotherapy">0</span></div>
+    <div class="nav-item" data-filter="cat-Yoga Studio"><span class="icon">🧘</span> Yoga/Martial Arts <span class="nav-badge" id="badge-cat-Yoga Studio">0</span></div>
+    <div class="nav-item" data-filter="cat-CrossFit"><span class="icon">🏋️</span> CrossFit <span class="nav-badge" id="badge-cat-CrossFit">0</span></div>
+    <div class="nav-item" data-filter="cat-Coffee Shop"><span class="icon">☕</span> Coffee Shops <span class="nav-badge" id="badge-cat-Coffee Shop">0</span></div>
   </div>
 
   <div class="sidebar-divider"></div>
@@ -1087,7 +1093,9 @@ function renderLeads() {
   document.getElementById('badge-queue').textContent = LEADS_DATA.filter(l => l.inQueue).length;
 
   // Category badges
-  ['Restaurant','Cafe','Bakery','Dessert','Gym','Salon','Dental','Real Estate','Contractor'].forEach(cat => {
+  ['Restaurant','Cafe','Bakery','Dessert','Gym','Salon','Dental','Real Estate','Contractor',
+   'Law Firm','Accounting Firm','Physiotherapy','Yoga Studio','CrossFit','Coffee Shop',
+   'Martial Arts','Chiropractic','Fitness Studio'].forEach(cat => {
     const el = document.getElementById('badge-cat-' + cat);
     if (el) el.textContent = LEADS_DATA.filter(l => l.category === cat).length;
   });
