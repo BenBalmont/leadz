@@ -830,28 +830,21 @@
 </footer>
 
 <script>
-// ── CATEGORIES DATA ──
+// ── CATEGORIES DATA (with real live lead counts) ──
 const categories = [
-  { icon: '🍽️', name: 'Restaurants', count: '1,247', color: 'orange' },
-  { icon: '☕', name: 'Cafes', count: '834', color: 'amber' },
-  { icon: '🥐', name: 'Bakeries', count: '412', color: 'amber' },
-  { icon: '🧋', name: 'Bubble Tea Shops', count: '298', color: 'purple' },
-  { icon: '🍦', name: 'Dessert Shops', count: '376', color: 'pink' },
-  { icon: '🥤', name: 'Juice & Smoothie Bars', count: '219', color: 'green' },
-  { icon: '🍕', name: 'Pizza Places', count: '543', color: 'orange' },
-  { icon: '🍣', name: 'Sushi & Japanese', count: '387', color: 'cyan' },
-  { icon: '🌮', name: 'Mexican & Tacos', count: '264', color: 'amber' },
-  { icon: '🍜', name: 'Ramen & Noodles', count: '198', color: 'orange' },
-  { icon: '🏋️', name: 'Gyms & Fitness', count: '923', color: 'green' },
+  { icon: '🍽️', name: 'Restaurants', count: '19', link: 'dashboard.html?cat=Restaurant', color: 'orange', live: true },
+  { icon: '☕', name: 'Cafes', count: '2', link: 'dashboard.html?cat=Cafe', color: 'amber', live: true },
+  { icon: '🏋️', name: 'Gyms & Fitness', count: '30', link: 'dashboard.html?cat=Gym', color: 'green', live: true },
+  { icon: '✂️', name: 'Hair Salons & Barbers', count: '46', link: 'dashboard.html?cat=Salon', color: 'pink', live: true },
+  { icon: '🦷', name: 'Dental Clinics', count: '31', link: 'dashboard.html?cat=Dental', color: 'cyan', live: true },
+  { icon: '🏡', name: 'Real Estate Agents', count: '23', link: 'dashboard.html?cat=Real+Estate', color: 'green', live: true },
+  { icon: '🔧', name: 'Contractors', count: '30', link: 'dashboard.html?cat=Contractor', color: 'amber', live: true },
+  { icon: '🥐', name: 'Bakeries', count: '2', link: 'dashboard.html?cat=Bakery', color: 'amber', live: true },
   { icon: '💆', name: 'Spas & Wellness', count: '641', color: 'purple' },
-  { icon: '✂️', name: 'Hair Salons', count: '1,102', color: 'pink' },
   { icon: '💅', name: 'Nail Salons', count: '789', color: 'pink' },
-  { icon: '🦷', name: 'Dental Offices', count: '876', color: 'cyan' },
   { icon: '👗', name: 'Boutique Clothing', count: '534', color: 'purple' },
   { icon: '⚖️', name: 'Law Firms', count: '1,341', color: 'cyan' },
-  { icon: '🔧', name: 'Plumbers', count: '712', color: 'amber' },
   { icon: '⚡', name: 'Electricians', count: '589', color: 'amber' },
-  { icon: '🏡', name: 'Real Estate', count: '2,103', color: 'green' },
   { icon: '🐾', name: 'Pet Grooming', count: '387', color: 'orange' },
   { icon: '📸', name: 'Photography Studios', count: '443', color: 'purple' },
   { icon: '🧘', name: 'Yoga Studios', count: '312', color: 'green' },
@@ -862,38 +855,37 @@ const categories = [
   { icon: '📚', name: 'Tutoring Centers', count: '318', color: 'purple' },
   { icon: '🎸', name: 'Music Schools', count: '204', color: 'pink' },
   { icon: '🍺', name: 'Bars & Breweries', count: '467', color: 'amber' },
-  { icon: '🎂', name: 'Event Caterers', count: '389', color: 'orange' },
-  { icon: '🏊', name: 'Swimming Pools', count: '156', color: 'cyan' },
   { icon: '🧹', name: 'Cleaning Services', count: '834', color: 'green' },
-  { icon: '🔒', name: 'Locksmiths', count: '243', color: 'amber' },
   { icon: '💻', name: 'IT & Tech Support', count: '567', color: 'purple' },
   { icon: '🎨', name: 'Art & Design Studios', count: '298', color: 'pink' },
-  { icon: '🏗️', name: 'Contractors', count: '1,204', color: 'amber' },
   { icon: '🌱', name: 'Landscaping', count: '678', color: 'green' },
   { icon: '🐕', name: 'Dog Walkers', count: '445', color: 'orange' },
-  { icon: '🚌', name: 'Limo & Transport', count: '312', color: 'cyan' },
   { icon: '🎭', name: 'Event Venues', count: '287', color: 'purple' },
   { icon: '💊', name: 'Pharmacies', count: '543', color: 'green' },
   { icon: '🏋️', name: 'Personal Trainers', count: '712', color: 'green' },
   { icon: '🌊', name: 'Tattoo Studios', count: '334', color: 'pink' },
-  { icon: '🎮', name: 'Gaming Lounges', count: '178', color: 'purple' },
-  { icon: '🧺', name: 'Laundry Services', count: '267', color: 'cyan' },
   { icon: '📦', name: 'Storage Units', count: '189', color: 'amber' },
   { icon: '🏨', name: 'Boutique Hotels', count: '423', color: 'purple' },
   { icon: '🎓', name: 'Language Schools', count: '256', color: 'cyan' },
-  { icon: '🏄', name: 'Surf & Ski Lessons', count: '134', color: 'green' },
 ];
 
 const grid = document.getElementById('catGrid');
 categories.forEach(cat => {
-  const card = document.createElement('div');
+  const card = document.createElement(cat.link ? 'a' : 'div');
   card.className = 'cat-card';
   card.setAttribute('data-color', cat.color);
+  if (cat.link) {
+    card.href = cat.link;
+    card.style.textDecoration = 'none';
+    card.style.color = 'inherit';
+  }
   card.innerHTML = `
     <span class="cat-icon">${cat.icon}</span>
     <div class="cat-name">${cat.name}</div>
     <div class="cat-count"><strong>${cat.count}</strong> leads available</div>
-    <div class="cat-live">LIVE</div>
+    <div class="cat-live" style="${cat.live ? 'background:rgba(16,185,129,0.12);color:#10B981;border:1px solid rgba(16,185,129,0.3);' : ''}">
+      ${cat.live ? '🟢 LIVE NOW' : 'LIVE'}
+    </div>
   `;
   grid.appendChild(card);
 });

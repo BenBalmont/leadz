@@ -1522,6 +1522,17 @@ function initUserSession() {
   const planParam = params.get('plan');
   const nameParam = params.get('name');
   
+  // Handle category filter from URL (e.g., from landing page category cards)
+  const catParam = params.get('cat');
+  if (catParam) {
+    currentFilter = 'cat-' + catParam;
+    // Update the active nav item
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    const catNav = document.querySelector(`.nav-item[data-filter="cat-${catParam}"]`);
+    if (catNav) catNav.classList.add('active');
+    renderLeads(); // Re-render with new filter
+  }
+  
   // Update plan badge from localStorage
   const user = getUserProfile();
   if (user && user.plan) {
