@@ -484,13 +484,13 @@
   </a>
   <div class="nav-links">
     <a href="#categories">Categories</a>
-    <a href="#how">How It Works</a>
+    <a href="#demo">Demo</a>
     <a href="#pricing">Pricing</a>
-    <a href="#testimonials">Reviews</a>
+    <a href="dashboard.html">Live Demo</a>
   </div>
   <div class="nav-cta">
-    <a href="dashboard.html" class="btn-ghost">Sign In</a>
-    <a href="#pricing" class="btn-primary">Start Free Trial</a>
+    <a href="dashboard.html" class="btn-ghost">Live Demo</a>
+    <a href="signup.html" class="btn-primary">Start Free Trial</a>
   </div>
 </nav>
 
@@ -511,13 +511,13 @@
       Find decision-maker contacts for any local business in seconds. Verified emails, owner names, phone numbers — always fresh.
     </p>
     <div class="hero-ctas">
-      <a href="#pricing" class="btn-lg btn-lg-primary">Start Free Trial — No Card Needed</a>
+      <a href="signup.html" class="btn-lg btn-lg-primary">Start Free Trial — No Card Needed</a>
       <a href="dashboard.html" class="btn-lg btn-lg-ghost">View Live Demo →</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat">
         <div class="num"><span class="count-up" data-target="2400000">0</span>+</div>
-        <div class="label">Verified leads</div>
+        <div class="label">Leads indexed</div>
       </div>
       <div class="hero-stat">
         <div class="num"><span class="count-up" data-target="50">0</span>+</div>
@@ -528,8 +528,8 @@
         <div class="label">Cities indexed</div>
       </div>
       <div class="hero-stat">
-        <div class="num"><span class="count-up" data-target="94">0</span>%</div>
-        <div class="label">Email deliverability</div>
+        <div class="num" id="live-lead-count"><span class="count-up" data-target="40">0</span></div>
+        <div class="label">Toronto leads live now</div>
       </div>
     </div>
   </div>
@@ -600,6 +600,48 @@
   </div>
 </section>
 
+<!-- VIDEO SECTION -->
+<section id="demo" style="background:var(--bg);padding:80px 24px;">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div class="section-label">See it in action</div>
+      <h2 class="section-title">Watch leads come to life</h2>
+      <p class="section-sub" style="margin:0 auto;">See how Leadz surfaces verified owner contacts, generates cold emails, and tracks your deals — all in under 60 seconds.</p>
+    </div>
+    <div style="max-width:820px;margin:0 auto;position:relative;">
+      <!-- Video placeholder -->
+      <div style="background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:0;overflow:hidden;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%,rgba(124,58,237,0.15) 0%,transparent 70%);border-radius:20px;"></div>
+        <!-- Fake screenshot placeholder -->
+        <div style="position:relative;z-index:1;text-align:center;">
+          <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#7C3AED,#06B6D4);display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 20px;box-shadow:0 0 0 12px rgba(124,58,237,0.15),0 0 0 24px rgba(124,58,237,0.07);">▶</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px;">Watch 2-Minute Demo</div>
+          <div style="font-size:14px;color:var(--text3);">See the full dashboard, pitch assistant, and email copy tool</div>
+          <a href="dashboard.html" style="display:inline-block;margin-top:24px;padding:12px 28px;background:var(--primary);color:#fff;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;transition:all 0.2s;">Try the Live Dashboard →</a>
+        </div>
+      </div>
+      <!-- Feature callouts below video -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:8px;">📋</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px;">One-click cold email</div>
+          <div style="font-size:12px;color:var(--text3);">Personalized for every lead</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:8px;">✅</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Verified owner emails</div>
+          <div style="font-size:12px;color:var(--text3);">Real people, not info@</div>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;">
+          <div style="font-size:24px;margin-bottom:8px;">📊</div>
+          <div style="font-size:13px;font-weight:600;margin-bottom:4px;">Built-in CRM</div>
+          <div style="font-size:12px;color:var(--text3);">Track every deal from first touch</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- PRICING -->
 <section id="pricing">
   <div class="container">
@@ -625,7 +667,7 @@
           <li><span class="check">✓</span> CSV export (500/mo)</li>
           <li><span class="check">✓</span> Basic CRM (status tracking)</li>
         </ul>
-        <button class="price-cta price-cta-ghost">Get Started</button>
+        <a href="signup.html?plan=starter" class="price-cta price-cta-ghost" style="text-decoration:none;display:block;text-align:center;">Get Started</a>
       </div>
 
       <!-- Pro (Most Popular) -->
@@ -646,7 +688,7 @@
           <li><span class="check">✓</span> BCC blast email copy</li>
           <li><span class="check">✓</span> Priority data refresh</li>
         </ul>
-        <button class="price-cta price-cta-primary">Start Free Trial</button>
+        <a href="signup.html?plan=pro" class="price-cta price-cta-primary" style="text-decoration:none;display:block;text-align:center;">Start Free Trial</a>
       </div>
 
       <!-- Agency -->
@@ -666,7 +708,7 @@
           <li><span class="check">✓</span> Dedicated account manager</li>
           <li><span class="check">✓</span> Custom data requests</li>
         </ul>
-        <button class="price-cta price-cta-ghost">Contact Sales</button>
+        <a href="signup.html?plan=agency" class="price-cta price-cta-ghost" style="text-decoration:none;display:block;text-align:center;">Contact Sales</a>
       </div>
 
     </div>
@@ -756,7 +798,7 @@
   <div class="cta-band-content">
     <h2>Unlimited leads.<br /><em style="background: linear-gradient(135deg, #A78BFA, #06B6D4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-style: normal;">Every niche. Always fresh.</em></h2>
     <p>Start your 7-day free trial. No credit card. Cancel anytime.</p>
-    <a href="#pricing" class="btn-lg btn-lg-primary">Start Free — It Takes 30 Seconds</a>
+    <a href="signup.html" class="btn-lg btn-lg-primary">Start Free — It Takes 30 Seconds</a>
   </div>
 </div>
 
@@ -880,6 +922,22 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.3 });
 
 document.querySelectorAll('.count-up').forEach(el => observer.observe(el));
+
+// Fetch real lead count from leads.json
+fetch('leads.json')
+  .then(r => r.json())
+  .then(leads => {
+    const el = document.querySelector('#live-lead-count .count-up');
+    if (el) {
+      el.dataset.target = leads.length;
+      // If already counted, update directly
+      const parentStat = el.closest('.hero-stat');
+      if (parentStat) {
+        el.textContent = leads.length;
+      }
+    }
+  })
+  .catch(() => {}); // fail silently
 </script>
 </body>
 </html>

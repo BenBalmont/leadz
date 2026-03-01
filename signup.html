@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get Started — Leadz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #08090E;
+      --bg2: #0D0F1A;
+      --card: #12141F;
+      --card2: #1A1D2E;
+      --border: rgba(255,255,255,0.06);
+      --border2: rgba(255,255,255,0.12);
+      --primary: #7C3AED;
+      --primary-light: #9F6FF5;
+      --primary-glow: rgba(124,58,237,0.35);
+      --accent: #06B6D4;
+      --green: #10B981;
+      --amber: #F59E0B;
+      --text: #F1F5F9;
+      --text2: #94A3B8;
+      --text3: #64748B;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    /* BG MESH */
+    .bg-mesh {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124,58,237,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 70%, rgba(6,182,212,0.08) 0%, transparent 50%);
+    }
+    .dot-grid {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 60px;
+      background: rgba(8,9,14,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px; font-weight: 800; color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo .bolt {
+      width: 26px; height: 26px;
+      background: linear-gradient(135deg, #7C3AED, #06B6D4);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+    }
+    .nav-login { color: var(--text3); font-size: 14px; text-decoration: none; transition: color 0.2s; }
+    .nav-login:hover { color: var(--text2); }
+
+    /* MAIN CONTAINER */
+    .signup-container {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 680px;
+      margin: 90px auto 60px;
+      padding: 0 24px;
+    }
+
+    /* PROGRESS BAR */
+    .progress-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+    .step-indicator {
+      display: flex; align-items: center; justify-content: center; gap: 0;
+      margin-bottom: 16px;
+    }
+    .step-dot {
+      width: 32px; height: 32px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700;
+      border: 2px solid var(--border2);
+      color: var(--text3);
+      background: var(--card);
+      transition: all 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+    .step-dot.active {
+      border-color: var(--primary);
+      color: #fff;
+      background: var(--primary);
+      box-shadow: 0 0 16px rgba(124,58,237,0.5);
+    }
+    .step-dot.done {
+      border-color: var(--green);
+      color: var(--green);
+      background: rgba(16,185,129,0.1);
+    }
+    .step-line {
+      width: 60px; height: 2px;
+      background: var(--border2);
+      transition: background 0.3s;
+    }
+    .step-line.done { background: var(--green); }
+    .step-line.active { background: linear-gradient(90deg, var(--green), var(--primary)); }
+
+    .progress-bar-wrap {
+      height: 4px; background: var(--border2);
+      border-radius: 100px; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #7C3AED, #06B6D4);
+      border-radius: 100px;
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .step-label {
+      font-size: 13px; color: var(--text3); margin-top: 10px;
+    }
+
+    /* STEP CARD */
+    .step-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 44px 48px;
+      display: none;
+      animation: stepIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .step-card.active { display: block; }
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-emoji { font-size: 40px; margin-bottom: 16px; display: block; }
+    .step-title {
+      font-size: 26px; font-weight: 800; letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+    .step-sub { font-size: 15px; color: var(--text2); margin-bottom: 32px; line-height: 1.55; }
+
+    /* OPTION GRID */
+    .option-grid {
+      display: grid; gap: 12px;
+    }
+    .option-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .option-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .option-btn {
+      padding: 16px 18px;
+      background: var(--card2);
+      border: 1px solid var(--border2);
+      border-radius: 12px;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+      display: flex; align-items: flex-start; gap: 12px;
+    }
+    .option-btn:hover {
+      border-color: var(--primary);
+      background: rgba(124,58,237,0.06);
+    }
+    .option-btn.selected {
+      border-color: var(--primary);
+      background: rgba(124,58,237,0.12);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.3), 0 0 20px rgba(124,58,237,0.1);
+    }
+    .option-btn.multi.selected {
+      border-color: var(--green);
+      background: rgba(16,185,129,0.08);
+      box-shadow: 0 0 0 1px rgba(16,185,129,0.25);
+    }
+    .opt-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+    .opt-label { font-weight: 600; font-size: 14px; margin-bottom: 2px; }
+    .opt-sub { font-size: 12px; color: var(--text3); }
+    .opt-check {
+      margin-left: auto; flex-shrink: 0;
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid var(--border2);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      font-size: 10px;
+    }
+    .option-btn.selected .opt-check {
+      background: var(--primary); border-color: var(--primary); color: #fff;
+    }
+    .option-btn.multi.selected .opt-check {
+      background: var(--green); border-color: var(--green); color: #fff;
+    }
+
+    /* FORM FIELDS */
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--text2); margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%; padding: 13px 16px;
+      background: var(--card2); border: 1px solid var(--border2);
+      border-radius: 10px; color: var(--text); font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s; outline: none;
+    }
+    .form-input::placeholder { color: var(--text3); }
+    .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* RADIUS OPTIONS */
+    .radius-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+      margin-top: 8px;
+    }
+    .radius-btn {
+      padding: 10px 8px;
+      background: var(--card2); border: 1px solid var(--border2);
+      border-radius: 10px; cursor: pointer; text-align: center;
+      transition: all 0.2s; color: var(--text);
+      font-family: 'Inter', sans-serif;
+    }
+    .radius-btn:hover { border-color: var(--primary); }
+    .radius-btn.selected { border-color: var(--primary); background: rgba(124,58,237,0.12); }
+    .radius-label { font-size: 13px; font-weight: 600; }
+    .radius-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+    /* PRICING CARDS */
+    .pricing-grid-sm {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .price-card-sm {
+      background: var(--card2); border: 1px solid var(--border2);
+      border-radius: 16px; padding: 24px 20px;
+      cursor: pointer; transition: all 0.25s; position: relative;
+    }
+    .price-card-sm:hover { border-color: var(--primary); transform: translateY(-2px); }
+    .price-card-sm.selected {
+      border-color: var(--primary);
+      background: rgba(124,58,237,0.1);
+      box-shadow: 0 0 0 1px rgba(124,58,237,0.4), 0 8px 32px rgba(124,58,237,0.2);
+    }
+    .price-card-sm.popular {
+      border-color: var(--primary);
+      background: rgba(124,58,237,0.08);
+    }
+    .plan-badge {
+      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, #7C3AED, #06B6D4);
+      color: #fff; font-size: 10px; font-weight: 700;
+      padding: 3px 14px; border-radius: 100px; white-space: nowrap;
+    }
+    .plan-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+    .plan-price {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 800;
+      font-size: 28px; color: var(--text); margin-bottom: 4px;
+    }
+    .plan-price sup { font-size: 14px; vertical-align: super; }
+    .plan-price span { font-size: 13px; color: var(--text3); font-weight: 400; }
+    .plan-desc { font-size: 12px; color: var(--text3); margin-bottom: 12px; line-height: 1.45; }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .plan-features li { font-size: 12px; color: var(--text2); display: flex; align-items: flex-start; gap: 6px; }
+    .plan-features li::before { content: '✓'; color: var(--green); font-size: 11px; margin-top: 1px; }
+
+    /* NAV BUTTONS */
+    .step-nav {
+      display: flex; gap: 12px; margin-top: 32px;
+      align-items: center;
+    }
+    .btn-back {
+      padding: 12px 24px; border-radius: 10px;
+      background: transparent; border: 1px solid var(--border2);
+      color: var(--text2); font-size: 14px; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-back:hover { border-color: var(--border2); color: var(--text); }
+    .btn-next {
+      flex: 1; padding: 14px 24px; border-radius: 10px;
+      background: linear-gradient(135deg, #7C3AED, #5B21B6);
+      color: #fff; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif; border: none;
+      transition: all 0.25s;
+      box-shadow: 0 4px 20px rgba(124,58,237,0.35);
+    }
+    .btn-next:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 28px rgba(124,58,237,0.5);
+    }
+    .btn-next:disabled {
+      opacity: 0.5; cursor: not-allowed; transform: none;
+      box-shadow: none;
+    }
+    .btn-trial {
+      flex: 1; padding: 16px 24px; border-radius: 10px;
+      background: linear-gradient(135deg, #7C3AED, #06B6D4);
+      color: #fff; font-size: 16px; font-weight: 700;
+      cursor: pointer; font-family: 'Inter', sans-serif; border: none;
+      transition: all 0.25s;
+      box-shadow: 0 4px 24px rgba(124,58,237,0.4);
+    }
+    .btn-trial:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 36px rgba(124,58,237,0.55);
+    }
+
+    /* TEXT AREA */
+    .form-textarea {
+      width: 100%; padding: 13px 16px;
+      background: var(--card2); border: 1px solid var(--border2);
+      border-radius: 10px; color: var(--text); font-size: 15px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.2s; outline: none;
+      resize: none; min-height: 80px;
+    }
+    .form-textarea::placeholder { color: var(--text3); }
+    .form-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+
+    /* OTHER INPUT */
+    .other-input-wrap { margin-top: 10px; display: none; }
+    .other-input-wrap.show { display: block; }
+
+    /* TRUST BADGES */
+    .trust-badges {
+      display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+      margin-top: 24px;
+    }
+    .trust-badge {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 12px; color: var(--text3);
+    }
+    .trust-badge .icon { color: var(--green); }
+
+    @media (max-width: 640px) {
+      .step-card { padding: 28px 24px; }
+      .option-grid.cols-2 { grid-template-columns: 1fr; }
+      .option-grid.cols-3 { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .radius-grid { grid-template-columns: repeat(2, 1fr); }
+      .pricing-grid-sm { grid-template-columns: 1fr; }
+      .step-line { width: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+<div class="dot-grid"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="bolt">⚡</div>
+    LEADZ
+  </a>
+  <a href="dashboard.html" class="nav-login">Already have an account? Sign in →</a>
+</nav>
+
+<div class="signup-container">
+
+  <!-- PROGRESS -->
+  <div class="progress-header">
+    <div class="step-indicator">
+      <div class="step-dot active" id="dot-1">1</div>
+      <div class="step-line" id="line-1"></div>
+      <div class="step-dot" id="dot-2">2</div>
+      <div class="step-line" id="line-2"></div>
+      <div class="step-dot" id="dot-3">3</div>
+      <div class="step-line" id="line-3"></div>
+      <div class="step-dot" id="dot-4">4</div>
+      <div class="step-line" id="line-4"></div>
+      <div class="step-dot" id="dot-5">5</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressBar" style="width: 20%"></div>
+    </div>
+    <div class="step-label" id="stepLabel">Step 1 of 5 — What do you sell?</div>
+  </div>
+
+  <!-- STEP 1: What do you sell? -->
+  <div class="step-card active" id="step-1">
+    <span class="step-emoji">💼</span>
+    <h2 class="step-title">What do you sell?</h2>
+    <p class="step-sub">Tell us your niche so we can show you the best leads for your business.</p>
+
+    <div class="option-grid">
+      <div class="option-btn" data-value="Mobile App Development" onclick="selectOption(this, 'niche')">
+        <span class="opt-icon">📱</span>
+        <div>
+          <div class="opt-label">Mobile App Development</div>
+          <div class="opt-sub">Custom apps, loyalty systems — typically $1,500–$5,000/project</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn" data-value="Marketing Agency Services" onclick="selectOption(this, 'niche')">
+        <span class="opt-icon">📣</span>
+        <div>
+          <div class="opt-label">Marketing Agency Services</div>
+          <div class="opt-sub">Social media, ads, content, branding</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn" data-value="Web Design & Development" onclick="selectOption(this, 'niche')">
+        <span class="opt-icon">🌐</span>
+        <div>
+          <div class="opt-label">Web Design & Development</div>
+          <div class="opt-sub">Websites, landing pages, e-commerce</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn" data-value="SEO & Digital Marketing" onclick="selectOption(this, 'niche')">
+        <span class="opt-icon">🔍</span>
+        <div>
+          <div class="opt-label">SEO & Digital Marketing</div>
+          <div class="opt-sub">Google rankings, PPC, local SEO</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn" data-value="Business Software / SaaS" onclick="selectOption(this, 'niche')">
+        <span class="opt-icon">💻</span>
+        <div>
+          <div class="opt-label">Business Software / SaaS</div>
+          <div class="opt-sub">Booking systems, CRMs, POS tools</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn" data-value="other" onclick="selectOption(this, 'niche')">
+        <span class="opt-icon">✏️</span>
+        <div>
+          <div class="opt-label">Other</div>
+          <div class="opt-sub">Tell us what you sell</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+    </div>
+
+    <div class="other-input-wrap" id="otherInputWrap">
+      <input type="text" class="form-input" id="otherNiche" placeholder="e.g. Video Production, Accounting, Consulting..." />
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-next" id="btn-next-1" onclick="nextStep(1)" disabled>Continue →</button>
+    </div>
+
+    <div class="trust-badges">
+      <div class="trust-badge"><span class="icon">🔒</span> No credit card required</div>
+      <div class="trust-badge"><span class="icon">✓</span> 7-day free trial</div>
+      <div class="trust-badge"><span class="icon">⚡</span> Setup in 2 minutes</div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Where are you selling? -->
+  <div class="step-card" id="step-2">
+    <span class="step-emoji">📍</span>
+    <h2 class="step-title">Where are you selling?</h2>
+    <p class="step-sub">We'll pull leads from your target market so every contact is in your territory.</p>
+
+    <div class="form-group">
+      <label class="form-label">Your target city or region</label>
+      <input type="text" class="form-input" id="targetCity" placeholder="e.g. Toronto, ON" oninput="checkStep2()" />
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">How far do you sell?</label>
+      <div class="radius-grid">
+        <button class="radius-btn" onclick="selectRadius(this, 'Local (0-50km)')">
+          <div class="radius-label">🏙️ Local</div>
+          <div class="radius-sub">0–50km</div>
+        </button>
+        <button class="radius-btn" onclick="selectRadius(this, 'Regional (50-200km)')">
+          <div class="radius-label">🗺️ Regional</div>
+          <div class="radius-sub">50–200km</div>
+        </button>
+        <button class="radius-btn" onclick="selectRadius(this, 'National')">
+          <div class="radius-label">🇨🇦 National</div>
+          <div class="radius-sub">All cities</div>
+        </button>
+        <button class="radius-btn" onclick="selectRadius(this, 'International')">
+          <div class="radius-label">🌍 International</div>
+          <div class="radius-sub">Global</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="prevStep(2)">← Back</button>
+      <button class="btn-next" id="btn-next-2" onclick="nextStep(2)" disabled>Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Who do you target? -->
+  <div class="step-card" id="step-3">
+    <span class="step-emoji">🎯</span>
+    <h2 class="step-title">Who do you target?</h2>
+    <p class="step-sub">Select all business types you pitch to. We'll prioritize these leads for you. <strong style="color:var(--text2)">Pick as many as you want.</strong></p>
+
+    <div class="option-grid cols-2" id="targetGrid">
+      <div class="option-btn multi" data-value="Restaurants & Cafes" onclick="toggleMulti(this, 'target')">
+        <span class="opt-icon">🍽️</span>
+        <div>
+          <div class="opt-label">Restaurants & Cafes</div>
+          <div class="opt-sub">Full-service, fast casual, cafes</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn multi" data-value="Gyms & Fitness Studios" onclick="toggleMulti(this, 'target')">
+        <span class="opt-icon">🏋️</span>
+        <div>
+          <div class="opt-label">Gyms & Fitness Studios</div>
+          <div class="opt-sub">Independent gyms, yoga, pilates</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn multi" data-value="Salons & Spas" onclick="toggleMulti(this, 'target')">
+        <span class="opt-icon">✂️</span>
+        <div>
+          <div class="opt-label">Salons & Spas</div>
+          <div class="opt-sub">Hair, nail, waxing, med-spa</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn multi" data-value="Retail Boutiques" onclick="toggleMulti(this, 'target')">
+        <span class="opt-icon">👗</span>
+        <div>
+          <div class="opt-label">Retail Boutiques</div>
+          <div class="opt-sub">Clothing, gifts, accessories</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn multi" data-value="Professional Services" onclick="toggleMulti(this, 'target')">
+        <span class="opt-icon">⚖️</span>
+        <div>
+          <div class="opt-label">Professional Services</div>
+          <div class="opt-sub">Dentists, lawyers, accountants</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+      <div class="option-btn multi" data-value="Home Services" onclick="toggleMulti(this, 'target')">
+        <span class="opt-icon">🔧</span>
+        <div>
+          <div class="opt-label">Home Services</div>
+          <div class="opt-sub">Plumbers, electricians, contractors</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 12px;">
+      <div class="option-btn multi" data-value="All of the above" onclick="toggleAll(this)" style="border-style: dashed; opacity:0.8;">
+        <span class="opt-icon">🚀</span>
+        <div>
+          <div class="opt-label">All of the above</div>
+          <div class="opt-sub">Show me leads from every category</div>
+        </div>
+        <div class="opt-check">✓</div>
+      </div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="prevStep(3)">← Back</button>
+      <button class="btn-next" id="btn-next-3" onclick="nextStep(3)" disabled>Continue →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: What's your pitch? -->
+  <div class="step-card" id="step-4">
+    <span class="step-emoji">✍️</span>
+    <h2 class="step-title">What's your pitch?</h2>
+    <p class="step-sub">We'll personalize your cold email templates using this info — so every email sounds like you, not a robot.</p>
+
+    <div class="form-group">
+      <label class="form-label">Your offer in one sentence</label>
+      <input type="text" class="form-input" id="offerSentence"
+        placeholder='e.g. "I build custom loyalty apps for local restaurants for $1,500 flat"'
+        oninput="checkStep4()" />
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Your name</label>
+        <input type="text" class="form-input" id="userName" placeholder="First name" oninput="checkStep4()" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your email</label>
+        <input type="email" class="form-input" id="userEmail" placeholder="you@example.com" oninput="checkStep4()" />
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your phone <span style="color:var(--text3); font-weight:400">(optional)</span></label>
+      <input type="tel" class="form-input" id="userPhone" placeholder="+1 (416) 555-0100" />
+    </div>
+
+    <!-- LIVE PREVIEW -->
+    <div id="emailPreview" style="display:none; margin-top: 8px;">
+      <div style="font-size:12px; font-weight:600; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Email preview</div>
+      <div style="background:var(--bg2); border:1px solid var(--border2); border-radius:10px; padding:16px; font-size:13px; color:var(--text2); line-height:1.65;" id="emailPreviewText"></div>
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="prevStep(4)">← Back</button>
+      <button class="btn-next" id="btn-next-4" onclick="nextStep(4)" disabled>Choose My Plan →</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Choose your plan -->
+  <div class="step-card" id="step-5">
+    <span class="step-emoji">🚀</span>
+    <h2 class="step-title">Choose your plan</h2>
+    <p class="step-sub">Start with a 7-day free trial. Cancel anytime. No contracts.</p>
+
+    <div class="pricing-grid-sm">
+      <!-- Starter -->
+      <div class="price-card-sm" id="plan-starter" onclick="selectPlan('starter')">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price"><sup>$</sup>49<span>/mo</span></div>
+        <div class="plan-desc">Solo freelancers, one niche</div>
+        <ul class="plan-features">
+          <li>1 category + 1 city</li>
+          <li>Unlimited lead views</li>
+          <li>Verified emails</li>
+          <li>Pitch assistant</li>
+          <li>CSV export (500/mo)</li>
+        </ul>
+      </div>
+
+      <!-- Pro (pre-selected) -->
+      <div class="price-card-sm popular selected" id="plan-pro" onclick="selectPlan('pro')">
+        <div class="plan-badge">⚡ POPULAR</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><sup>$</sup>99<span>/mo</span></div>
+        <div class="plan-desc">Multiple niches & cities</div>
+        <ul class="plan-features">
+          <li>5 categories + 5 cities</li>
+          <li>Unlimited leads & export</li>
+          <li>AI pitch assistant</li>
+          <li>Full CRM + activity log</li>
+          <li>Priority data refresh</li>
+        </ul>
+      </div>
+
+      <!-- Agency -->
+      <div class="price-card-sm" id="plan-agency" onclick="selectPlan('agency')">
+        <div class="plan-name">Agency</div>
+        <div class="plan-price"><sup>$</sup>299<span>/mo</span></div>
+        <div class="plan-desc">Teams, all niches, all cities</div>
+        <ul class="plan-features">
+          <li>50+ categories, 200+ cities</li>
+          <li>Team seats (up to 10)</li>
+          <li>API access</li>
+          <li>White-label dashboard</li>
+          <li>Dedicated account mgr</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div id="signupSummary" style="margin-top:24px; padding:16px; background:var(--bg2); border:1px solid var(--border2); border-radius:12px; font-size:13px; color:var(--text2); line-height:1.7;">
+    </div>
+
+    <div class="step-nav">
+      <button class="btn-back" onclick="prevStep(5)">← Back</button>
+      <button class="btn-trial" id="btn-trial" onclick="startTrial()">Start My Free Trial — 7 Days Free 🚀</button>
+    </div>
+
+    <div class="trust-badges" style="margin-top:16px;">
+      <div class="trust-badge"><span class="icon">🔒</span> Secured by Stripe/LemonSqueezy</div>
+      <div class="trust-badge"><span class="icon">✓</span> Cancel anytime</div>
+      <div class="trust-badge"><span class="icon">💳</span> No charge for 7 days</div>
+    </div>
+  </div>
+
+</div><!-- /signup-container -->
+
+<script>
+// ── STATE ──
+const state = {
+  niche: '',
+  otherNiche: '',
+  city: '',
+  radius: '',
+  targets: [],
+  offer: '',
+  name: '',
+  email: '',
+  phone: '',
+  plan: 'pro'
+};
+
+let currentStep = 1;
+const totalSteps = 5;
+
+const stepLabels = [
+  '', 'What do you sell?', 'Where are you selling?',
+  'Who do you target?', "What's your pitch?", 'Choose your plan'
+];
+
+// ── NAVIGATION ──
+function updateProgress() {
+  const pct = (currentStep / totalSteps) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('stepLabel').textContent = `Step ${currentStep} of ${totalSteps} — ${stepLabels[currentStep]}`;
+
+  for (let i = 1; i <= totalSteps; i++) {
+    const dot = document.getElementById(`dot-${i}`);
+    if (i < currentStep) { dot.className = 'step-dot done'; dot.textContent = '✓'; }
+    else if (i === currentStep) { dot.className = 'step-dot active'; dot.textContent = i; }
+    else { dot.className = 'step-dot'; dot.textContent = i; }
+  }
+
+  for (let i = 1; i < totalSteps; i++) {
+    const line = document.getElementById(`line-${i}`);
+    if (i < currentStep) line.className = 'step-line done';
+    else if (i === currentStep - 1) line.className = 'step-line active';
+    else line.className = 'step-line';
+  }
+}
+
+function nextStep(from) {
+  if (from < totalSteps) {
+    document.getElementById(`step-${from}`).classList.remove('active');
+    currentStep = from + 1;
+    document.getElementById(`step-${currentStep}`).classList.add('active');
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (currentStep === 5) buildSummary();
+  }
+}
+
+function prevStep(from) {
+  if (from > 1) {
+    document.getElementById(`step-${from}`).classList.remove('active');
+    currentStep = from - 1;
+    document.getElementById(`step-${currentStep}`).classList.add('active');
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+// ── STEP 1: NICHE SELECTION ──
+function selectOption(el, key) {
+  document.querySelectorAll(`#step-1 .option-btn`).forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  state.niche = el.dataset.value;
+
+  const otherWrap = document.getElementById('otherInputWrap');
+  if (state.niche === 'other') {
+    otherWrap.classList.add('show');
+    document.getElementById('btn-next-1').disabled = false;
+  } else {
+    otherWrap.classList.remove('show');
+    document.getElementById('btn-next-1').disabled = false;
+  }
+}
+
+// ── STEP 2: LOCATION ──
+function selectRadius(el, value) {
+  document.querySelectorAll('.radius-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  state.radius = value;
+  checkStep2();
+}
+
+function checkStep2() {
+  state.city = document.getElementById('targetCity').value.trim();
+  document.getElementById('btn-next-2').disabled = !(state.city && state.radius);
+}
+
+// ── STEP 3: TARGET TYPES ──
+function toggleMulti(el, key) {
+  el.classList.toggle('selected');
+  const val = el.dataset.value;
+  const idx = state.targets.indexOf(val);
+  if (idx >= 0) state.targets.splice(idx, 1);
+  else state.targets.push(val);
+  document.getElementById('btn-next-3').disabled = state.targets.length === 0;
+}
+
+function toggleAll(el) {
+  const allVals = ['Restaurants & Cafes','Gyms & Fitness Studios','Salons & Spas','Retail Boutiques','Professional Services','Home Services'];
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    document.querySelectorAll('#targetGrid .option-btn').forEach(b => b.classList.remove('selected'));
+    state.targets = [];
+  } else {
+    el.classList.add('selected');
+    document.querySelectorAll('#targetGrid .option-btn').forEach(b => b.classList.add('selected'));
+    state.targets = [...allVals];
+  }
+  document.getElementById('btn-next-3').disabled = state.targets.length === 0;
+}
+
+// ── STEP 4: PITCH INFO ──
+function checkStep4() {
+  state.offer = document.getElementById('offerSentence').value.trim();
+  state.name = document.getElementById('userName').value.trim();
+  state.email = document.getElementById('userEmail').value.trim();
+
+  const isValid = state.offer && state.name && state.email && state.email.includes('@');
+  document.getElementById('btn-next-4').disabled = !isValid;
+
+  if (isValid) {
+    document.getElementById('emailPreview').style.display = 'block';
+    document.getElementById('emailPreviewText').innerHTML = generateEmailPreview();
+  } else {
+    document.getElementById('emailPreview').style.display = 'none';
+  }
+}
+
+function generateEmailPreview() {
+  const name = state.name || 'Chris';
+  const offer = state.offer || 'I help local businesses grow with digital tools';
+  return `Hi [Owner Name],<br><br>
+I noticed [Business Name] on Google and wanted to reach out personally.<br><br>
+${offer.charAt(0).toUpperCase() + offer.slice(1)}. I work with businesses in ${state.city || 'your area'} and think there's a great fit here.<br><br>
+Would you be open to a quick 15-minute call this week? I'd love to show you what we've done for similar businesses in the area.<br><br>
+Best,<br>${name}`;
+}
+
+// ── STEP 5: PLAN ──
+function selectPlan(plan) {
+  state.plan = plan;
+  ['starter','pro','agency'].forEach(p => {
+    const el = document.getElementById(`plan-${p}`);
+    if (p === plan) el.classList.add('selected');
+    else el.classList.remove('selected');
+  });
+}
+
+function buildSummary() {
+  const planPrices = { starter: '$49/mo', pro: '$99/mo', agency: '$299/mo' };
+  const niche = state.niche === 'other'
+    ? (document.getElementById('otherNiche').value || 'Other')
+    : state.niche;
+
+  document.getElementById('signupSummary').innerHTML = `
+    <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Your personalized setup</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;">
+      <div>📌 <strong>Niche:</strong> ${niche}</div>
+      <div>📍 <strong>Market:</strong> ${state.city} (${state.radius})</div>
+      <div>🎯 <strong>Targets:</strong> ${state.targets.length > 3 ? state.targets.length + ' categories' : (state.targets.join(', ') || 'All')}</div>
+      <div>💳 <strong>Plan:</strong> ${state.plan.charAt(0).toUpperCase() + state.plan.slice(1)} (${planPrices[state.plan]})</div>
+    </div>`;
+}
+
+function startTrial() {
+  // Save to localStorage
+  state.name = document.getElementById('userName') ? document.getElementById('userName').value : state.name;
+  state.email = document.getElementById('userEmail') ? document.getElementById('userEmail').value : state.email;
+  state.phone = document.getElementById('userPhone') ? document.getElementById('userPhone').value : '';
+  state.offer = document.getElementById('offerSentence') ? document.getElementById('offerSentence').value : state.offer;
+
+  localStorage.setItem('leadz_user', JSON.stringify({
+    name: state.name,
+    email: state.email,
+    phone: state.phone,
+    offer: state.offer,
+    niche: state.niche === 'other' ? (document.getElementById('otherNiche').value || 'Other') : state.niche,
+    city: state.city,
+    radius: state.radius,
+    targets: state.targets,
+    plan: state.plan,
+    trialStart: new Date().toISOString()
+  }));
+
+  // Redirect to checkout based on plan
+  const checkoutUrls = {
+    starter: 'https://leadz.lemonsqueezy.com/checkout/buy/starter',
+    pro: 'https://leadz.lemonsqueezy.com/checkout/buy/pro',
+    agency: 'https://leadz.lemonsqueezy.com/checkout/buy/agency'
+  };
+
+  // For now, redirect to dashboard (payment integration coming soon)
+  window.location.href = 'dashboard.html?plan=' + state.plan + '&trial=true';
+}
+
+// Init
+selectPlan('pro');
+updateProgress();
+</script>
+</body>
+</html>
