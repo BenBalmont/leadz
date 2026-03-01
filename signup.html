@@ -920,9 +920,12 @@ async function startTrial() {
   // Show success state
   btn.textContent = '✅ Account Created!';
 
-  // Redirect to dashboard with trial parameters
+  // Redirect to checkout with pre-filled info
   setTimeout(() => {
-    window.location.href = 'dashboard.html?plan=' + state.plan + '&trial=true&name=' + encodeURIComponent(state.name);
+    const checkoutUrl = 'checkout.html?plan=' + state.plan + 
+      '&email=' + encodeURIComponent(state.email) + 
+      '&name=' + encodeURIComponent(state.name);
+    window.location.href = checkoutUrl;
   }, 800);
 }
 

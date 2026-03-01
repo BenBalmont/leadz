@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — Leadz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #08090E; --bg2: #0D0F1A; --card: #12141F; --card2: #1A1D2E;
+      --border: rgba(255,255,255,0.06); --border2: rgba(255,255,255,0.12);
+      --primary: #7C3AED; --primary-light: #9F6FF5; --green: #10B981; --amber: #F59E0B;
+      --text: #F1F5F9; --text2: #94A3B8; --text3: #64748B;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh;
+      display: flex; align-items: center; justify-content: center; padding: 24px; }
+    h1,h2,h3 { font-family: 'Space Grotesk', sans-serif; }
+    
+    .bg-mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(124,58,237,0.2) 0%, transparent 60%); }
+    
+    .checkout-wrap {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 920px;
+      display: grid; grid-template-columns: 1fr 420px;
+      gap: 32px; align-items: start;
+    }
+    
+    /* LEFT: Plan summary */
+    .plan-summary {
+      background: var(--card); border: 1px solid var(--border2); border-radius: 20px; padding: 36px;
+    }
+    .checkout-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 32px; }
+    .checkout-logo .bolt { width: 28px; height: 28px; background: linear-gradient(135deg, #7C3AED, #06B6D4);
+      border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 13px; }
+    .checkout-logo .name { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; }
+    
+    .plan-header { margin-bottom: 28px; }
+    .plan-title { font-size: 13px; font-weight: 700; color: var(--text3); text-transform: uppercase; 
+      letter-spacing: 1px; margin-bottom: 8px; }
+    .plan-name-big { font-size: 28px; font-weight: 800; margin-bottom: 4px; }
+    .plan-price-big { font-size: 48px; font-weight: 800; color: var(--primary-light); line-height: 1; }
+    .plan-price-big sup { font-size: 20px; vertical-align: super; }
+    .plan-price-big sub { font-size: 16px; color: var(--text3); font-weight: 400; }
+    .plan-trial-note { font-size: 13px; color: var(--green); margin-top: 8px; }
+    
+    .plan-includes { margin-bottom: 28px; }
+    .plan-includes-title { font-size: 12px; font-weight: 700; text-transform: uppercase; 
+      letter-spacing: 1px; color: var(--text3); margin-bottom: 12px; }
+    .feature-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; 
+      border-bottom: 1px solid var(--border); font-size: 14px; color: var(--text2); }
+    .feature-item:last-child { border-bottom: none; }
+    .feature-item .check { color: var(--green); font-size: 14px; flex-shrink: 0; }
+    
+    .plan-switcher { display: flex; gap: 8px; }
+    .plan-switch-btn { flex: 1; padding: 10px 8px; border-radius: 8px; cursor: pointer; text-align: center;
+      background: var(--card2); border: 1px solid var(--border2); color: var(--text3); 
+      font-size: 12px; font-weight: 600; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+    .plan-switch-btn:hover { border-color: var(--primary); color: var(--text2); }
+    .plan-switch-btn.active { border-color: var(--primary); background: rgba(124,58,237,0.12); color: var(--primary-light); }
+    .plan-switch-price { font-size: 14px; font-weight: 700; display: block; margin-top: 3px; }
+    
+    /* RIGHT: Payment form */
+    .payment-form {
+      background: var(--card); border: 1px solid var(--border2); border-radius: 20px; padding: 36px;
+    }
+    .form-title { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+    .form-sub { font-size: 13px; color: var(--text3); margin-bottom: 28px; }
+    
+    .form-group { margin-bottom: 18px; }
+    .form-label { display: block; font-size: 12px; font-weight: 700; color: var(--text3); 
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .form-input {
+      width: 100%; padding: 13px 16px; background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 10px; color: var(--text); font-size: 15px; font-family: 'Inter', sans-serif;
+      outline: none; transition: all 0.2s;
+    }
+    .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+    .form-input::placeholder { color: var(--text3); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    
+    .card-field {
+      display: flex; align-items: center; gap: 10px;
+      padding: 13px 16px; background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 10px; transition: all 0.2s;
+    }
+    .card-field:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(124,58,237,0.15); }
+    .card-field input { flex: 1; background: transparent; border: none; outline: none; 
+      color: var(--text); font-size: 15px; font-family: 'Inter', sans-serif; }
+    .card-icons { display: flex; gap: 6px; align-items: center; flex-shrink: 0; }
+    .card-icon { height: 22px; width: auto; opacity: 0.7; }
+    
+    .pay-btn {
+      width: 100%; padding: 16px; border-radius: 12px; margin-top: 8px;
+      background: linear-gradient(135deg, #7C3AED, #5B21B6); color: #fff;
+      font-size: 16px; font-weight: 700; cursor: pointer; border: none;
+      font-family: 'Inter', sans-serif; transition: all 0.25s;
+      box-shadow: 0 4px 24px rgba(124,58,237,0.4);
+    }
+    .pay-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 36px rgba(124,58,237,0.55); }
+    .pay-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+    
+    .security-row { display: flex; gap: 16px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+    .security-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text3); }
+    
+    .divider { height: 1px; background: var(--border); margin: 20px 0; }
+    .promo-row { display: flex; gap: 8px; }
+    .promo-input { flex: 1; padding: 10px 14px; background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 8px; color: var(--text); font-size: 14px; font-family: 'Inter', sans-serif; outline: none; }
+    .promo-input:focus { border-color: var(--primary); }
+    .promo-btn { padding: 10px 16px; background: rgba(124,58,237,0.15); border: 1px solid rgba(124,58,237,0.3);
+      color: var(--primary-light); border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer;
+      font-family: 'Inter', sans-serif; white-space: nowrap; transition: all 0.2s; }
+    .promo-btn:hover { background: rgba(124,58,237,0.25); }
+    
+    @media (max-width: 760px) {
+      .checkout-wrap { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-mesh"></div>
+
+<div class="checkout-wrap">
+
+  <!-- PLAN SUMMARY -->
+  <div class="plan-summary">
+    <div class="checkout-logo">
+      <div class="bolt">⚡</div>
+      <div class="name">LEADZ</div>
+    </div>
+    
+    <div class="plan-header">
+      <div class="plan-title">You're subscribing to</div>
+      <div class="plan-name-big" id="selectedPlanName">Pro</div>
+      <div class="plan-price-big" id="selectedPlanPrice"><sup>$</sup>99<sub>/mo</sub></div>
+      <div class="plan-trial-note">✓ 7-day free trial — no charge until <span id="trialEndDate"></span></div>
+    </div>
+    
+    <div class="plan-includes">
+      <div class="plan-includes-title">What's included</div>
+      <div id="featureList"></div>
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+      <div class="plan-includes-title">Change plan</div>
+      <div class="plan-switcher">
+        <button class="plan-switch-btn" onclick="switchPlan('starter')" id="switch-starter">
+          Starter<span class="plan-switch-price">$49/mo</span>
+        </button>
+        <button class="plan-switch-btn active" onclick="switchPlan('pro')" id="switch-pro">
+          Pro ⚡<span class="plan-switch-price">$99/mo</span>
+        </button>
+        <button class="plan-switch-btn" onclick="switchPlan('agency')" id="switch-agency">
+          Agency<span class="plan-switch-price">$299/mo</span>
+        </button>
+      </div>
+    </div>
+    
+    <div style="font-size: 12px; color: var(--text3); line-height: 1.6;">
+      By starting your trial you agree to our 
+      <a href="#" style="color: var(--primary-light);">Terms of Service</a> and 
+      <a href="#" style="color: var(--primary-light);">Privacy Policy</a>. 
+      Cancel anytime before your trial ends.
+    </div>
+  </div>
+
+  <!-- PAYMENT FORM -->
+  <div class="payment-form">
+    <div class="form-title">Start your free trial</div>
+    <div class="form-sub">No charge for 7 days. Cancel anytime.</div>
+    
+    <div class="form-group">
+      <label class="form-label">Email address</label>
+      <input type="email" class="form-input" id="checkoutEmail" placeholder="you@example.com" required />
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Full name</label>
+      <input type="text" class="form-input" id="checkoutName" placeholder="Ben Balmont" />
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Card number</label>
+      <div class="card-field">
+        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19"
+          oninput="formatCard(this)" />
+        <div class="card-icons">
+          <span style="font-size:18px;">💳</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Expiry</label>
+        <input type="text" class="form-input" placeholder="MM / YY" maxlength="7"
+          oninput="formatExpiry(this)" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">CVV</label>
+        <input type="text" class="form-input" placeholder="123" maxlength="4" />
+      </div>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <div class="form-group">
+      <div class="promo-row">
+        <input type="text" class="promo-input" placeholder="Promo code (optional)" id="promoCode" />
+        <button class="promo-btn" onclick="applyPromo()">Apply</button>
+      </div>
+    </div>
+    
+    <!-- ORDER SUMMARY -->
+    <div style="background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 18px;">
+      <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text2); margin-bottom: 8px;">
+        <span>7-day free trial</span><span style="color: var(--green);">$0.00</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; font-size: 14px; color: var(--text2); margin-bottom: 8px;">
+        <span>Then <span id="orderPlanName">Pro Plan</span></span>
+        <span id="orderPrice">$99/month</span>
+      </div>
+      <div style="height:1px;background:var(--border);margin:10px 0;"></div>
+      <div style="display: flex; justify-content: space-between; font-size: 15px; font-weight: 700; color: var(--text);">
+        <span>Due today</span><span style="color: var(--green);">$0.00</span>
+      </div>
+    </div>
+    
+    <button class="pay-btn" id="payBtn" onclick="processPayment()">
+      Start Free Trial — $0 Today
+    </button>
+    
+    <div class="security-row">
+      <div class="security-item">🔒 SSL encrypted</div>
+      <div class="security-item">✓ No charge for 7 days</div>
+      <div class="security-item">↩ Cancel anytime</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PLANS = {
+  starter: {
+    name: 'Starter', price: '$49', priceNum: 49,
+    features: [
+      '1 city + 1 niche category',
+      'Unlimited lead views',
+      'Verified contact emails',
+      'Cold email pitch assistant',
+      'CSV export (500 leads/mo)',
+      'Lead scoring & CRM basics'
+    ]
+  },
+  pro: {
+    name: 'Pro ⚡', price: '$99', priceNum: 99,
+    features: [
+      '5 cities + 5 categories',
+      'Unlimited leads & exports',
+      'AI-powered pitch assistant',
+      'Full CRM & activity log',
+      'Priority data refresh',
+      'BCC blast email copy',
+      'Verified owner contacts'
+    ]
+  },
+  agency: {
+    name: 'Agency', price: '$299', priceNum: 299,
+    features: [
+      '200+ cities, 50+ categories',
+      'Team seats (up to 10)',
+      'White-label dashboard',
+      'API access',
+      'Dedicated account manager',
+      'Custom data requests',
+      'Zapier + HubSpot sync'
+    ]
+  }
+};
+
+let currentPlan = 'pro';
+
+// Init from URL params
+const params = new URLSearchParams(window.location.search);
+const urlPlan = params.get('plan');
+const urlEmail = params.get('email');
+const urlName = params.get('name');
+
+if (urlPlan && PLANS[urlPlan]) currentPlan = urlPlan;
+if (urlEmail) document.getElementById('checkoutEmail').value = urlEmail;
+if (urlName) document.getElementById('checkoutName').value = urlName;
+
+// Also load from localStorage
+const savedUser = JSON.parse(localStorage.getItem('leadz_user') || '{}');
+if (savedUser.email && !urlEmail) document.getElementById('checkoutEmail').value = savedUser.email;
+if (savedUser.name && !urlName) document.getElementById('checkoutName').value = savedUser.name;
+if (savedUser.plan) currentPlan = savedUser.plan;
+
+function switchPlan(plan) {
+  currentPlan = plan;
+  document.querySelectorAll('.plan-switch-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('switch-' + plan).classList.add('active');
+  updatePlanDisplay();
+}
+
+function updatePlanDisplay() {
+  const plan = PLANS[currentPlan];
+  document.getElementById('selectedPlanName').textContent = plan.name.replace(' ⚡', '');
+  document.getElementById('selectedPlanPrice').innerHTML = `<sup>$</sup>${plan.priceNum}<sub>/mo</sub>`;
+  document.getElementById('orderPlanName').textContent = plan.name.replace(' ⚡', '') + ' Plan';
+  document.getElementById('orderPrice').textContent = plan.price + '/month';
+  
+  document.getElementById('featureList').innerHTML = plan.features.map(f =>
+    `<div class="feature-item"><span class="check">✓</span> ${f}</div>`
+  ).join('');
+  
+  // Update trial end date
+  const trialEnd = new Date();
+  trialEnd.setDate(trialEnd.getDate() + 7);
+  document.getElementById('trialEndDate').textContent = trialEnd.toLocaleDateString('en-US', {month:'long',day:'numeric',year:'numeric'});
+}
+
+function formatCard(input) {
+  let v = input.value.replace(/\D/g, '').substring(0, 16);
+  input.value = v.replace(/(.{4})/g, '$1 ').trim();
+}
+
+function formatExpiry(input) {
+  let v = input.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length > 2) v = v.substring(0, 2) + ' / ' + v.substring(2);
+  input.value = v;
+}
+
+function applyPromo() {
+  const code = document.getElementById('promoCode').value.trim().toUpperCase();
+  if (code === 'LEADZ50') {
+    alert('Promo applied! 50% off your first month.');
+  } else if (code === 'LAUNCH') {
+    alert('Launch discount applied! First month free.');
+  } else if (code) {
+    alert('Invalid promo code. Try LEADZ50 for 50% off!');
+  }
+}
+
+async function processPayment() {
+  const email = document.getElementById('checkoutEmail').value.trim();
+  const name = document.getElementById('checkoutName').value.trim();
+  const cardNum = document.getElementById('cardNumber').value.trim();
+  
+  if (!email || !email.includes('@')) {
+    alert('Please enter a valid email address');
+    return;
+  }
+  
+  if (cardNum.length < 19) {
+    // For demo, accept any card
+    // In production this would use Stripe.js
+  }
+  
+  const btn = document.getElementById('payBtn');
+  btn.textContent = '⏳ Processing...';
+  btn.disabled = true;
+  
+  // Save to localStorage
+  const userData = JSON.parse(localStorage.getItem('leadz_user') || '{}');
+  userData.email = email;
+  userData.name = name;
+  userData.plan = currentPlan;
+  userData.trialStart = new Date().toISOString();
+  localStorage.setItem('leadz_user', JSON.stringify(userData));
+  
+  // Submit to Formspree
+  try {
+    const planPrices = { starter: '$49/mo', pro: '$99/mo', agency: '$299/mo' };
+    await fetch('https://formspree.io/f/xkgwnkdo', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: `💳 New Payment/Trial — ${currentPlan.toUpperCase()} (${planPrices[currentPlan]})`,
+        name,
+        email,
+        plan: `${currentPlan} — ${planPrices[currentPlan]}`,
+        type: 'checkout',
+        timestamp: new Date().toLocaleString()
+      })
+    });
+  } catch(e) {}
+  
+  // Simulate brief processing
+  await new Promise(r => setTimeout(r, 1200));
+  
+  btn.textContent = '✅ Trial Started!';
+  
+  setTimeout(() => {
+    window.location.href = 'dashboard.html?plan=' + currentPlan + '&trial=true&name=' + encodeURIComponent(name);
+  }, 600);
+}
+
+// Initialize
+updatePlanDisplay();
+</script>
+</body>
+</html>
