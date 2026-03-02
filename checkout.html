@@ -368,22 +368,23 @@ async function processPayment() {
   userData.trialStart = new Date().toISOString();
   localStorage.setItem('leadz_user', JSON.stringify(userData));
   
-  // Submit to Formspree to notify Ben/Chris
+  // Submit to FormSubmit.co to notify Ben
   const planPrices = { starter: '$49/mo', pro: '$99/mo', agency: '$299/mo' };
   try {
-    await fetch('https://formspree.io/ben@balmontcreatives.com', {
+    const formData = new FormData();
+    formData.append('name', name || '(no name)');
+    formData.append('email', email);
+    formData.append('plan', `${currentPlan} — ${planPrices[currentPlan]}`);
+    formData.append('offer', offer || '(not provided)');
+    formData.append('type', 'trial_signup');
+    formData.append('timestamp', new Date().toLocaleString());
+    formData.append('_subject', `New Leadz Trial — ${currentPlan.toUpperCase()} (${planPrices[currentPlan]})`);
+    formData.append('_replyto', email);
+    formData.append('_captcha', 'false');
+    formData.append('_template', 'table');
+    await fetch('https://formsubmit.co/ben@balmontcreatives.com', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: `🚀 New Leadz Trial — ${currentPlan.toUpperCase()} (${planPrices[currentPlan]})`,
-        name: name || '(no name)',
-        email,
-        plan: `${currentPlan} — ${planPrices[currentPlan]}`,
-        offer: offer || '(not provided)',
-        type: 'trial_signup',
-        timestamp: new Date().toLocaleString(),
-        _replyto: email
-      })
+      body: formData
     });
   } catch(e) { /* fail silently — user still gets access */ }
   
