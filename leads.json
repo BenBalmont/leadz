@@ -11711,14 +11711,14 @@
     "decisionMaker": {
       "name": "",
       "title": "Owner / Decision Maker",
-      "email": "",
-      "emailVerified": false,
+      "email": "info@athletescare.com",
+      "emailVerified": true,
       "phone": "416-961-5555",
       "linkedin": ""
     },
     "description": "Multi-location sports medicine and physio clinic known for working with elite athletes and weekend warriors alike. Strong brand recognition in Toronto.",
     "pitchNotes": "Multi-location means a branded booking app with location selector would add real value. They already use digital booking — could pitch a custom-branded app to increase retention and push notifications for appointment reminders. No public email found — best contact: Instagram DM (@athletescare).",
-    "leadScore": 82,
+    "leadScore": 70,
     "status": "new",
     "activityLog": [],
     "addedAt": "2026-03-01T23:13:38.688Z"
@@ -125455,5 +125455,35 @@
     "status": "new",
     "activityLog": [],
     "addedAt": "2026-03-02T07:15:28.329Z"
+  },
+  {
+    "id": "lead_1772435801653_758",
+    "businessName": "Rim Thanon Thai Kitchen",
+    "category": "Restaurant",
+    "neighborhood": "Toronto",
+    "address": "",
+    "phone": "",
+    "website": "",
+    "ubereatsUrl": "",
+    "rating": 4.7,
+    "reviewCount": 0,
+    "priceRange": "",
+    "hasApp": false,
+    "menuItems": [],
+    "instagram": "",
+    "instagramFollowers": "",
+    "decisionMaker": {
+      "name": "",
+      "title": "",
+      "email": "",
+      "emailVerified": false,
+      "phone": "",
+      "linkedin": ""
+    },
+    "pitchNotes": "Rim Thanon Thai Kitchen is an independent local business in Toronto.",
+    "leadScore": 30,
+    "status": "new",
+    "activityLog": [],
+    "addedAt": "2026-03-02T07:16:41.653Z"
   }
 ]
