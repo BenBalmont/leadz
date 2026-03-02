@@ -136617,7 +136617,7 @@
     "addedAt": "2026-03-02T13:21:12.120Z"
   },
   {
-    "id": "lead_1772457789473_7372",
+    "id": "lead_1772457931077_1096",
     "businessName": "GOA Hair Salon Wellesley",
     "category": "Salon",
     "neighborhood": "Toronto",
@@ -136644,10 +136644,40 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:23:09.473Z"
+    "addedAt": "2026-03-02T13:25:31.077Z"
   },
   {
-    "id": "lead_1772457862088_3645",
+    "id": "lead_1772458003436_1575",
+    "businessName": "King's Chair Barbershop",
+    "category": "Salon",
+    "neighborhood": "Toronto",
+    "address": "",
+    "phone": "",
+    "website": "",
+    "ubereatsUrl": "",
+    "rating": 5,
+    "reviewCount": 0,
+    "priceRange": "",
+    "hasApp": false,
+    "menuItems": [],
+    "instagram": "",
+    "instagramFollowers": "",
+    "decisionMaker": {
+      "name": "",
+      "title": "",
+      "email": "",
+      "emailVerified": false,
+      "phone": "",
+      "linkedin": ""
+    },
+    "pitchNotes": "King's Chair Barbershop is an independent local business in Toronto.",
+    "leadScore": 30,
+    "status": "new",
+    "activityLog": [],
+    "addedAt": "2026-03-02T13:26:43.436Z"
+  },
+  {
+    "id": "lead_1772458003437_3186",
     "businessName": "Terminal Barber Shop",
     "category": "Salon",
     "neighborhood": "Toronto",
@@ -136674,10 +136704,10 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:24:22.088Z"
+    "addedAt": "2026-03-02T13:26:43.437Z"
   },
   {
-    "id": "lead_1772457862088_6985",
+    "id": "lead_1772458003437_5380",
     "businessName": "Truefitt & Hill Barber Shop",
     "category": "Salon",
     "neighborhood": "Toronto",
@@ -136704,40 +136734,10 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:24:22.088Z"
+    "addedAt": "2026-03-02T13:26:43.437Z"
   },
   {
-    "id": "lead_1772457862088_193",
-    "businessName": "Gents Barbershop",
-    "category": "Salon",
-    "neighborhood": "Toronto",
-    "address": "",
-    "phone": "",
-    "website": "",
-    "ubereatsUrl": "",
-    "rating": 4.4,
-    "reviewCount": 0,
-    "priceRange": "",
-    "hasApp": false,
-    "menuItems": [],
-    "instagram": "",
-    "instagramFollowers": "",
-    "decisionMaker": {
-      "name": "",
-      "title": "",
-      "email": "",
-      "emailVerified": false,
-      "phone": "",
-      "linkedin": ""
-    },
-    "pitchNotes": "Gents Barbershop is an independent local business in Toronto.",
-    "leadScore": 15,
-    "status": "new",
-    "activityLog": [],
-    "addedAt": "2026-03-02T13:24:22.088Z"
-  },
-  {
-    "id": "lead_1772457934603_4381",
+    "id": "lead_1772458075855_7017",
     "businessName": "Nicole Piller Pilates & Yoga Studio",
     "category": "Gym",
     "neighborhood": "Toronto",
@@ -136764,40 +136764,10 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:25:34.603Z"
+    "addedAt": "2026-03-02T13:27:55.855Z"
   },
   {
-    "id": "lead_1772457934603_7349",
-    "businessName": "Yoga Grove - Small Classes. Big Difference.",
-    "category": "Gym",
-    "neighborhood": "Toronto",
-    "address": "",
-    "phone": "",
-    "website": "",
-    "ubereatsUrl": "",
-    "rating": 4.8,
-    "reviewCount": 0,
-    "priceRange": "",
-    "hasApp": false,
-    "menuItems": [],
-    "instagram": "",
-    "instagramFollowers": "",
-    "decisionMaker": {
-      "name": "",
-      "title": "",
-      "email": "",
-      "emailVerified": false,
-      "phone": "",
-      "linkedin": ""
-    },
-    "pitchNotes": "Yoga Grove - Small Classes. Big Difference. is an independent local business in Toronto.",
-    "leadScore": 30,
-    "status": "new",
-    "activityLog": [],
-    "addedAt": "2026-03-02T13:25:34.603Z"
-  },
-  {
-    "id": "lead_1772458163181_2201",
+    "id": "lead_1772458301238_5715",
     "businessName": "Polish'd Nail Bar",
     "category": "Salon",
     "neighborhood": "Toronto",
@@ -136824,10 +136794,10 @@
     "leadScore": 15,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:29:23.181Z"
+    "addedAt": "2026-03-02T13:31:41.238Z"
   },
   {
-    "id": "lead_1772458163181_5369",
+    "id": "lead_1772458301238_208",
     "businessName": "Jenny Nails",
     "category": "Salon",
     "neighborhood": "Toronto",
@@ -136854,10 +136824,10 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:29:23.181Z"
+    "addedAt": "2026-03-02T13:31:41.238Z"
   },
   {
-    "id": "lead_1772458235194_8398",
+    "id": "lead_1772458373641_1812",
     "businessName": "Thermea Spa Village Whitby",
     "category": "Spa",
     "neighborhood": "Toronto",
@@ -136884,10 +136854,10 @@
     "leadScore": 15,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:30:35.195Z"
+    "addedAt": "2026-03-02T13:32:53.641Z"
   },
   {
-    "id": "lead_1772458235195_6766",
+    "id": "lead_1772458373642_502",
     "businessName": "Toronto Sunrise Spa",
     "category": "Spa",
     "neighborhood": "Toronto",
@@ -136914,100 +136884,10 @@
     "leadScore": 15,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:30:35.195Z"
+    "addedAt": "2026-03-02T13:32:53.642Z"
   },
   {
-    "id": "lead_1772458235195_3079",
-    "businessName": "Four-leaved clover Healing RMT wellness",
-    "category": "Spa",
-    "neighborhood": "Toronto",
-    "address": "",
-    "phone": "",
-    "website": "",
-    "ubereatsUrl": "",
-    "rating": 4.1,
-    "reviewCount": 0,
-    "priceRange": "",
-    "hasApp": false,
-    "menuItems": [],
-    "instagram": "",
-    "instagramFollowers": "",
-    "decisionMaker": {
-      "name": "",
-      "title": "",
-      "email": "",
-      "emailVerified": false,
-      "phone": "",
-      "linkedin": ""
-    },
-    "pitchNotes": "Four-leaved clover Healing RMT wellness is an independent local business in Toronto.",
-    "leadScore": 15,
-    "status": "new",
-    "activityLog": [],
-    "addedAt": "2026-03-02T13:30:35.195Z"
-  },
-  {
-    "id": "lead_1772458235195_7567",
-    "businessName": "Eastern Bay Foot Spa",
-    "category": "Spa",
-    "neighborhood": "Toronto",
-    "address": "",
-    "phone": "",
-    "website": "",
-    "ubereatsUrl": "",
-    "rating": 4.8,
-    "reviewCount": 0,
-    "priceRange": "",
-    "hasApp": false,
-    "menuItems": [],
-    "instagram": "",
-    "instagramFollowers": "",
-    "decisionMaker": {
-      "name": "",
-      "title": "",
-      "email": "",
-      "emailVerified": false,
-      "phone": "",
-      "linkedin": ""
-    },
-    "pitchNotes": "Eastern Bay Foot Spa is an independent local business in Toronto.",
-    "leadScore": 30,
-    "status": "new",
-    "activityLog": [],
-    "addedAt": "2026-03-02T13:30:35.195Z"
-  },
-  {
-    "id": "lead_1772458235195_9541",
-    "businessName": "Alma Natural Spa",
-    "category": "Spa",
-    "neighborhood": "Toronto",
-    "address": "",
-    "phone": "",
-    "website": "",
-    "ubereatsUrl": "",
-    "rating": 4.4,
-    "reviewCount": 0,
-    "priceRange": "",
-    "hasApp": false,
-    "menuItems": [],
-    "instagram": "",
-    "instagramFollowers": "",
-    "decisionMaker": {
-      "name": "",
-      "title": "",
-      "email": "",
-      "emailVerified": false,
-      "phone": "",
-      "linkedin": ""
-    },
-    "pitchNotes": "Alma Natural Spa is an independent local business in Toronto.",
-    "leadScore": 15,
-    "status": "new",
-    "activityLog": [],
-    "addedAt": "2026-03-02T13:30:35.195Z"
-  },
-  {
-    "id": "lead_1772458352860_9968",
+    "id": "lead_1772458491412_6430",
     "businessName": "Naturlandia - Toronto",
     "category": "Cafe",
     "neighborhood": "Toronto",
@@ -137034,10 +136914,10 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:32:32.860Z"
+    "addedAt": "2026-03-02T13:34:51.412Z"
   },
   {
-    "id": "lead_1772458352860_9528",
+    "id": "lead_1772458491412_9752",
     "businessName": "The Cure by TMA",
     "category": "Cafe",
     "neighborhood": "Toronto",
@@ -137064,10 +136944,10 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:32:32.861Z"
+    "addedAt": "2026-03-02T13:34:51.412Z"
   },
   {
-    "id": "lead_1772458352861_5859",
+    "id": "lead_1772458491412_41",
     "businessName": "Revitasize - Downtown Toronto (Exchange Tower)",
     "category": "Cafe",
     "neighborhood": "Toronto",
@@ -137094,10 +136974,10 @@
     "leadScore": 15,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:32:32.861Z"
+    "addedAt": "2026-03-02T13:34:51.412Z"
   },
   {
-    "id": "lead_1772458506125_3702",
+    "id": "lead_1772458644269_1521",
     "businessName": "Mizu Omakase Sushi",
     "category": "Restaurant",
     "neighborhood": "Toronto",
@@ -137124,10 +137004,10 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:35:06.125Z"
+    "addedAt": "2026-03-02T13:37:24.269Z"
   },
   {
-    "id": "lead_1772458650293_560",
+    "id": "lead_1772458789238_5486",
     "businessName": "Avenue Open Kitchen",
     "category": "Restaurant",
     "neighborhood": "Toronto",
@@ -137154,10 +137034,10 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:37:30.293Z"
+    "addedAt": "2026-03-02T13:39:49.238Z"
   },
   {
-    "id": "lead_1772458650293_4544",
+    "id": "lead_1772458789238_2343",
     "businessName": "Lazy Daisy's Cafe",
     "category": "Restaurant",
     "neighborhood": "Toronto",
@@ -137184,10 +137064,10 @@
     "leadScore": 15,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:37:30.293Z"
+    "addedAt": "2026-03-02T13:39:49.238Z"
   },
   {
-    "id": "lead_1772458795273_1345",
+    "id": "lead_1772458933765_6566",
     "businessName": "The Annex Hotel Lobby Bar & Café",
     "category": "Bar",
     "neighborhood": "Toronto",
@@ -137214,18 +137094,18 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:39:55.273Z"
+    "addedAt": "2026-03-02T13:42:13.765Z"
   },
   {
-    "id": "lead_1772458940974_4133",
-    "businessName": "Compound Rehab - Mobile Physio",
-    "category": "Physiotherapy",
+    "id": "lead_1772459006168_5385",
+    "businessName": "Collective Arts Toronto Taproom",
+    "category": "Bar",
     "neighborhood": "Toronto",
     "address": "",
     "phone": "",
     "website": "",
     "ubereatsUrl": "",
-    "rating": 5,
+    "rating": 4.6,
     "reviewCount": 0,
     "priceRange": "",
     "hasApp": false,
@@ -137240,14 +137120,104 @@
       "phone": "",
       "linkedin": ""
     },
-    "pitchNotes": "Compound Rehab - Mobile Physio is an independent local business in Toronto.",
+    "pitchNotes": "Collective Arts Toronto Taproom is an independent local business in Toronto.",
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:42:20.974Z"
+    "addedAt": "2026-03-02T13:43:26.168Z"
   },
   {
-    "id": "lead_1772458940974_6884",
+    "id": "lead_1772459006168_6065",
+    "businessName": "Toronto Brewing",
+    "category": "Bar",
+    "neighborhood": "Toronto",
+    "address": "",
+    "phone": "",
+    "website": "",
+    "ubereatsUrl": "",
+    "rating": 4.7,
+    "reviewCount": 0,
+    "priceRange": "",
+    "hasApp": false,
+    "menuItems": [],
+    "instagram": "",
+    "instagramFollowers": "",
+    "decisionMaker": {
+      "name": "",
+      "title": "",
+      "email": "",
+      "emailVerified": false,
+      "phone": "",
+      "linkedin": ""
+    },
+    "pitchNotes": "Toronto Brewing is an independent local business in Toronto.",
+    "leadScore": 30,
+    "status": "new",
+    "activityLog": [],
+    "addedAt": "2026-03-02T13:43:26.168Z"
+  },
+  {
+    "id": "lead_1772459006168_9497",
+    "businessName": "Amsterdam Brewery",
+    "category": "Bar",
+    "neighborhood": "Toronto",
+    "address": "",
+    "phone": "",
+    "website": "",
+    "ubereatsUrl": "",
+    "rating": 4.4,
+    "reviewCount": 0,
+    "priceRange": "",
+    "hasApp": false,
+    "menuItems": [],
+    "instagram": "",
+    "instagramFollowers": "",
+    "decisionMaker": {
+      "name": "",
+      "title": "",
+      "email": "",
+      "emailVerified": false,
+      "phone": "",
+      "linkedin": ""
+    },
+    "pitchNotes": "Amsterdam Brewery is an independent local business in Toronto.",
+    "leadScore": 15,
+    "status": "new",
+    "activityLog": [],
+    "addedAt": "2026-03-02T13:43:26.168Z"
+  },
+  {
+    "id": "lead_1772459006168_6149",
+    "businessName": "Toronto Brewery Tours",
+    "category": "Bar",
+    "neighborhood": "Toronto",
+    "address": "",
+    "phone": "",
+    "website": "",
+    "ubereatsUrl": "",
+    "rating": 4.9,
+    "reviewCount": 0,
+    "priceRange": "",
+    "hasApp": false,
+    "menuItems": [],
+    "instagram": "",
+    "instagramFollowers": "",
+    "decisionMaker": {
+      "name": "",
+      "title": "",
+      "email": "",
+      "emailVerified": false,
+      "phone": "",
+      "linkedin": ""
+    },
+    "pitchNotes": "Toronto Brewery Tours is an independent local business in Toronto.",
+    "leadScore": 30,
+    "status": "new",
+    "activityLog": [],
+    "addedAt": "2026-03-02T13:43:26.168Z"
+  },
+  {
+    "id": "lead_1772459078693_3701",
     "businessName": "Ace Sports Clinic",
     "category": "Physiotherapy",
     "neighborhood": "Toronto",
@@ -137274,11 +137244,11 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:42:20.974Z"
+    "addedAt": "2026-03-02T13:44:38.693Z"
   },
   {
-    "id": "lead_1772458940974_863",
-    "businessName": "Lu Strength & Therapy - Physiotherapy Services, Sports Massage Therapy & Chiropractic Services",
+    "id": "lead_1772459078693_6801",
+    "businessName": "GTA SPINE – Physiotherapy & Rehab Clinc",
     "category": "Physiotherapy",
     "neighborhood": "Toronto",
     "address": "",
@@ -137300,14 +137270,14 @@
       "phone": "",
       "linkedin": ""
     },
-    "pitchNotes": "Lu Strength & Therapy - Physiotherapy Services, Sports Massage Therapy & Chiropractic Services is an independent local business in Toronto.",
+    "pitchNotes": "GTA SPINE – Physiotherapy & Rehab Clinc is an independent local business in Toronto.",
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:42:20.974Z"
+    "addedAt": "2026-03-02T13:44:38.693Z"
   },
   {
-    "id": "lead_1772458940974_1812",
+    "id": "lead_1772459078693_9481",
     "businessName": "Triangle Physiotherapy Lawrence Park",
     "category": "Physiotherapy",
     "neighborhood": "Toronto",
@@ -137334,70 +137304,10 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:42:20.974Z"
+    "addedAt": "2026-03-02T13:44:38.693Z"
   },
   {
-    "id": "lead_1772458940974_9971",
-    "businessName": "Rebuild Physiotherapy - Downtown Toronto",
-    "category": "Physiotherapy",
-    "neighborhood": "Toronto",
-    "address": "",
-    "phone": "",
-    "website": "",
-    "ubereatsUrl": "",
-    "rating": 5,
-    "reviewCount": 0,
-    "priceRange": "",
-    "hasApp": false,
-    "menuItems": [],
-    "instagram": "",
-    "instagramFollowers": "",
-    "decisionMaker": {
-      "name": "",
-      "title": "",
-      "email": "",
-      "emailVerified": false,
-      "phone": "",
-      "linkedin": ""
-    },
-    "pitchNotes": "Rebuild Physiotherapy - Downtown Toronto is an independent local business in Toronto.",
-    "leadScore": 30,
-    "status": "new",
-    "activityLog": [],
-    "addedAt": "2026-03-02T13:42:20.974Z"
-  },
-  {
-    "id": "lead_1772458940974_3330",
-    "businessName": "PinPoint- Infinity Health Downtown Toronto: Walk in/Medical Clinic & Rehab Centre",
-    "category": "Physiotherapy",
-    "neighborhood": "Toronto",
-    "address": "",
-    "phone": "",
-    "website": "",
-    "ubereatsUrl": "",
-    "rating": 4.4,
-    "reviewCount": 0,
-    "priceRange": "",
-    "hasApp": false,
-    "menuItems": [],
-    "instagram": "",
-    "instagramFollowers": "",
-    "decisionMaker": {
-      "name": "",
-      "title": "",
-      "email": "",
-      "emailVerified": false,
-      "phone": "",
-      "linkedin": ""
-    },
-    "pitchNotes": "PinPoint- Infinity Health Downtown Toronto: Walk in/Medical Clinic & Rehab Centre is an independent local business in Toronto.",
-    "leadScore": 15,
-    "status": "new",
-    "activityLog": [],
-    "addedAt": "2026-03-02T13:42:20.974Z"
-  },
-  {
-    "id": "lead_1772458940974_7619",
+    "id": "lead_1772459078693_6470",
     "businessName": "Cornerstone Physiotherapy - Toronto Beaches",
     "category": "Physiotherapy",
     "neighborhood": "Toronto",
@@ -137424,6 +137334,36 @@
     "leadScore": 30,
     "status": "new",
     "activityLog": [],
-    "addedAt": "2026-03-02T13:42:20.974Z"
+    "addedAt": "2026-03-02T13:44:38.693Z"
+  },
+  {
+    "id": "lead_1772459078693_5688",
+    "businessName": "Rebuild Physiotherapy - Downtown Toronto",
+    "category": "Physiotherapy",
+    "neighborhood": "Toronto",
+    "address": "",
+    "phone": "",
+    "website": "",
+    "ubereatsUrl": "",
+    "rating": 5,
+    "reviewCount": 0,
+    "priceRange": "",
+    "hasApp": false,
+    "menuItems": [],
+    "instagram": "",
+    "instagramFollowers": "",
+    "decisionMaker": {
+      "name": "",
+      "title": "",
+      "email": "",
+      "emailVerified": false,
+      "phone": "",
+      "linkedin": ""
+    },
+    "pitchNotes": "Rebuild Physiotherapy - Downtown Toronto is an independent local business in Toronto.",
+    "leadScore": 30,
+    "status": "new",
+    "activityLog": [],
+    "addedAt": "2026-03-02T13:44:38.693Z"
   }
 ]
