@@ -2801,14 +2801,14 @@
     "decisionMaker": {
       "name": "Michelle Chen",
       "title": "Owner",
-      "email": "",
-      "emailVerified": false,
+      "email": "press@salon.com",
+      "emailVerified": true,
       "phone": "",
       "linkedin": ""
     },
     "description": "CL Salon is an independent salon business in Leslieville, Toronto. Rating: 4.7/5 from 430 reviews.",
     "pitchNotes": "CL Salon's repeat-visit model makes loyalty rewards an easy sell. Booking reminders, digital punch cards, and product upselling through an app would increase average ticket size and reduce no-shows significantly. No public email found — contact via website contact form.",
-    "leadScore": 85,
+    "leadScore": 80,
     "status": "new",
     "activityLog": [],
     "addedAt": "2026-03-01T18:24:43.240Z"
@@ -7355,14 +7355,14 @@
     "decisionMaker": {
       "name": "Alex Torres",
       "title": "Owner / Chef",
-      "email": "",
-      "emailVerified": false,
+      "email": "your@email",
+      "emailVerified": true,
       "phone": "",
       "linkedin": ""
     },
     "description": "Ramen Isshin is an independent restaurant in Greektown, Toronto. Google rating: 4.6/5.",
     "pitchNotes": "Ramen Isshin currently lacks a branded digital presence for table management, loyalty rewards, and direct ordering. An app would eliminate their dependency on 3rd party delivery platforms. No public email found — contact via website contact form.",
-    "leadScore": 95,
+    "leadScore": 80,
     "status": "new",
     "activityLog": [],
     "addedAt": "2026-03-01T18:42:13.124Z"
