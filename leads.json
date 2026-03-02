@@ -136495,5 +136495,35 @@
     "status": "new",
     "activityLog": [],
     "addedAt": "2026-03-02T12:56:36.274Z"
+  },
+  {
+    "id": "lead_1772456341748_9371",
+    "businessName": "Trimly Royal Cut Barbershop",
+    "category": "Salon",
+    "neighborhood": "Toronto",
+    "address": "",
+    "phone": "",
+    "website": "",
+    "ubereatsUrl": "",
+    "rating": 4.9,
+    "reviewCount": 0,
+    "priceRange": "",
+    "hasApp": false,
+    "menuItems": [],
+    "instagram": "",
+    "instagramFollowers": "",
+    "decisionMaker": {
+      "name": "",
+      "title": "",
+      "email": "",
+      "emailVerified": false,
+      "phone": "",
+      "linkedin": ""
+    },
+    "pitchNotes": "Trimly Royal Cut Barbershop is an independent local business in Toronto.",
+    "leadScore": 30,
+    "status": "new",
+    "activityLog": [],
+    "addedAt": "2026-03-02T12:59:01.748Z"
   }
 ]
