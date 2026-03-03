@@ -948,13 +948,13 @@
     "decisionMaker": {
       "name": "",
       "title": "",
-      "email": "",
-      "emailVerified": false,
+      "email": "adelaide@localpubliceatery.com",
+      "emailVerified": true,
       "phone": "",
       "linkedin": ""
     },
     "pitchNotes": "Results is an independent local business in Toronto.",
-    "leadScore": 35,
+    "leadScore": 55,
     "status": "new",
     "activityLog": [],
     "addedAt": "2026-03-03T04:27:47.392Z"
