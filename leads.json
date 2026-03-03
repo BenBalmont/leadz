@@ -153085,5 +153085,35 @@
     "status": "new",
     "activityLog": [],
     "addedAt": "2026-03-02T23:59:25.256Z"
+  },
+  {
+    "id": "lead_1772496217502_7879",
+    "businessName": "Jay Chiropractic",
+    "category": "Other",
+    "neighborhood": "Toronto",
+    "address": "",
+    "phone": "",
+    "website": "",
+    "ubereatsUrl": "",
+    "rating": 5,
+    "reviewCount": 0,
+    "priceRange": "",
+    "hasApp": false,
+    "menuItems": [],
+    "instagram": "",
+    "instagramFollowers": "",
+    "decisionMaker": {
+      "name": "",
+      "title": "",
+      "email": "",
+      "emailVerified": false,
+      "phone": "",
+      "linkedin": ""
+    },
+    "pitchNotes": "Jay Chiropractic is an independent local business in Toronto.",
+    "leadScore": 30,
+    "status": "new",
+    "activityLog": [],
+    "addedAt": "2026-03-03T00:03:37.502Z"
   }
 ]
